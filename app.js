@@ -8,7 +8,7 @@ var time_elapsed;
 var interval;
 
 var movement_counter;
-var movment_direction;
+var movement_direction;
 
 $(document).ready(function() {
 	context = canvas.getContext("2d");	
@@ -26,7 +26,7 @@ function Start() {
 	
 
 	movement_counter = 0;
-	movment_direction = 0;
+	movement_direction = 0;
 
 	for (var i = 0; i < 10; i++) {
 		board[i] = new Array();
@@ -117,25 +117,25 @@ function Draw() {
 			if (board[i][j] == 2) {  
 				context.beginPath();
 				if (movement_counter % 2 == 0){
-					if (movment_direction == 0){
+					if (movement_direction == 0){
 						context.arc(center.x, center.y, 30, -0.3 * Math.PI, 1.3 * Math.PI); // half circle - up
 						context.lineTo(center.x, center.y);
 						context.fillStyle = pac_color; //color
 						context.fill();
 					}
-					else if (movment_direction == 1){
+					else if (movement_direction == 1){
 						context.arc(center.x, center.y, 30, -1.3 * Math.PI, 0.3 * Math.PI); // half circle - down
 						context.lineTo(center.x, center.y);
 						context.fillStyle = pac_color; //color
 						context.fill();
 					}
-					else if (movment_direction == 2){
+					else if (movement_direction == 2){
 						context.arc(center.x, center.y, 30, 1.15 * Math.PI, 2.85 * Math.PI); // half circle - left
 						context.lineTo(center.x, center.y);
 						context.fillStyle = pac_color; //color
 						context.fill();
 					}
-					else if (movment_direction == 3){						
+					else if (movement_direction == 3){						
 						context.arc(center.x, center.y, 30, 0.15 * Math.PI, 1.85 * Math.PI); // half circle - right
 						context.lineTo(center.x, center.y);
 						context.fillStyle = pac_color; //color
@@ -150,7 +150,7 @@ function Draw() {
 				}
 				movement_counter ++;
 				
-				if (movment_direction == 0 || movment_direction == 1){
+				if (movement_direction == 0 || movement_direction == 1){
 					context.beginPath();
 					context.arc(center.x + 17, center.y - 5, 5, 0, 2 * Math.PI); // circle
 					context.fillStyle = "black"; //color
@@ -186,28 +186,28 @@ function UpdatePosition() {
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
 			shape.j--;			
-			movment_direction = 0;
+			movement_direction = 0;
 			Draw();
 		}
 	}
 	if (x == 2) {
 		if (shape.j < 9 && board[shape.i][shape.j + 1] != 4) {
 			shape.j++;
-			movment_direction = 1;
+			movement_direction = 1;
 			Draw();
 		}
 	}
 	if (x == 3) {
 		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i--;
-			movment_direction = 2;
+			movement_direction = 2;
 			Draw();
 		}
 	}
 	if (x == 4) {
 		if (shape.i < 9 && board[shape.i + 1][shape.j] != 4) {
 			shape.i++;
-			movment_direction = 3;
+			movement_direction = 3;
 			Draw();
 		}
 	}
@@ -227,3 +227,4 @@ function UpdatePosition() {
 		Draw();
 	}
 }
+
