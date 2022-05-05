@@ -339,25 +339,25 @@ function draw_ghost(context, radius, x , y, color="red") {
 function move_randomly(x, y){
 	let positions = new Array();
 	let len=0;
-	if (board[x+1][y] != 4){
+	if (x+1  < 19 && board[x+1][y] != 4){
 		positions[len] = new Array();		
 		positions[len][0] = x+1;
 		positions[len][1] = y;		
 		len++;
 	}
-	if (board[x-1][y] != 4){
+	if (x-1 > 0 && board[x-1][y] != 4){
 		positions[len] = new Array();		
 		positions[len][0] = x-1;
 		positions[len][1] = y;		
 		len++;
 	}
-	if (board[x][y-1] != 4){
+	if (y-1 > 0 && board[x][y-1] != 4){
 		positions[len] = new Array();		
 		positions[len][0] = x;
 		positions[len][1] = y-1;		
 		len++;
 	}
-	if (board[x][y+1] != 4){
+	if (y+1 < 12 && board[x][y+1] != 4){
 		positions[len] = new Array();		
 		positions[len][0] = x;
 		positions[len][1] = y+1;		
@@ -405,14 +405,32 @@ function UpdatePosition() {
 		
 
 	let new_xy = new Array();
-	red_ghost_board[red_ghost.x,red_ghost.y] = 0;
+
+	cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
+	new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
+	cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
+	cyan_ghost.x = new_xy[0];
+	cyan_ghost.y = new_xy[1];	
+
+	red_ghost_board[red_ghost.x][red_ghost.y] = 0;
 	new_xy = move_randomly(red_ghost.x, red_ghost.y);
-	red_ghost_board[new_xy[0],new_xy[1]] = 1;
+	red_ghost_board[new_xy[0]][new_xy[1]] = 1;
 	red_ghost.x = new_xy[0];
-	red_ghost.y = new_xy[1];	
+	red_ghost.y = new_xy[1];
+
+	green_ghost_board[green_ghost.x][green_ghost.y] = 0;
+	new_xy = move_randomly(green_ghost.x, green_ghost.y);
+	green_ghost_board[new_xy[0]][new_xy[1]] = 1;
+	green_ghost.x = new_xy[0];
+	green_ghost.y = new_xy[1];
+
 
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
+	if ((green_ghost.i == shape.i && green_ghost.j == shape.j) || (cyan_ghost.i == shape.i && cyan_ghost.j == shape.j) || (red_ghost.i == shape.i && red_ghost.j == shape.j)){
+		window.clearInterval(interval);
+		window.alert("mongol kid Die IRL");
+	}
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "cyan";
 	}
