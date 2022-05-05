@@ -3,25 +3,36 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
+
+		<link rel="stylesheet" href="style.css">
 	</head>
 
 	<body>
-		<div id="score">
-			<label for="lblScore">SCORE:</label>
-			<input id="lblScore" type="text" />
-		</div>
-		<div id="time">
-			<label for="lblTime">TIME:</label>
-			<input id="lblTime" type="text" />
+		<div id="welcoming_page">
+			<h>Welcome to PacMan</h>
+			<br>
+			<button onclick="to_game_page()">Log in</button>
+			<button onclick="">Register</button>
 		</div>
 
-		<div id="game">
-			
-			<audio autoplay loop controls >
-				<source src="AudioFiles/wakawaka.mp3" />     
-			</audio>
-
-			<canvas id="canvas" height="800" width="800"></canvas>
+		
+		<div id="game_page" style="display: none;" >
+			<button onclick="to_game_page()">to welcome</button>
+			<audio id="waka" loop src="AudioFiles/wakawaka.mp3"></audio>
+			<div id="score">
+				<label for="lblScore">SCORE:</label>
+				<input id="lblScore" type="text" />
+			</div>
+			<div id="time">
+				<label for="lblTime">TIME:</label>
+				<input id="lblTime" type="text" />
+			</div>
+			<div id="game">		
+				<canvas id="canvas" height="780" width="1200"></canvas>
+			</div>
 		</div>
+
+		
+
 	</body>
 </html>
