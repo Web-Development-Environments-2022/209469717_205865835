@@ -7,19 +7,19 @@
 		<link rel="stylesheet" href="style.css">
 	</head>
 
-	<body>
-		<div id="welcoming_page">
+	<body class="main_body">
+		<div id="welcoming_page" >
 			<h>Welcome to PacMan</h>
 			<br>
-			<button onclick="  to_game_page()">Log in</button>
-			<button onclick="">Register</button>
+			<button class="cool_button" onclick="  to_game_page()">Log in</button>
+			<button class="cool_button" onclick="">Register</button>
 		</div>
 
 		
-		<div id="game_page" style="display: none;" >
+		<div id="game_page" style="display: none;" class="game_page">
 			<button onclick="to_game_page()">to welcome</button>
 			<audio id="waka" loop src="AudioFiles/wakawaka.mp3"></audio>
-			<div id="score">
+			<div id="score" >
 				<label for="lblScore">SCORE:</label>
 				<input id="lblScore" type="text" />
 			</div>
