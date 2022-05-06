@@ -59,10 +59,10 @@ function Start() {
 
 	for (var i = 0; i < 21; i++) { 
 		board[i] = new Array();
-		red_ghost_board[i] = new Array()
-		cyan_ghost_board[i] = new Array()
-		green_ghost_board[i] = new Array()
-		for (var j = 0; j < 13; j++) { 
+		red_ghost_board[i] = new Array();
+		cyan_ghost_board[i] = new Array();
+		green_ghost_board[i] = new Array();
+		for (var j = 0; j < 13; j++) {
 
 			if (i == 1 && j == 1){
 				red_ghost_board[i][j] = 1;
