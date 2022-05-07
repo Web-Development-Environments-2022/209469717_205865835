@@ -70,6 +70,8 @@ function Start() {
 				red_ghost_board[i][j] = 1;
 				red_ghost.x = i;
 				red_ghost.y = j;
+				red_ghost.x_old = -1;
+				red_ghost.y_old = -1;
 			}
 			else{
 				red_ghost_board[i][j] = 0;
@@ -79,6 +81,8 @@ function Start() {
 				cyan_ghost_board[i][j] = 1;
 				cyan_ghost.x = i;
 				cyan_ghost.y = j;
+				cyan_ghost.x_old = -1;
+				cyan_ghost.y_old = -1;
 			}
 			else{
 				cyan_ghost_board[i][j] = 0;
@@ -87,6 +91,8 @@ function Start() {
 				green_ghost_board[i][j] = 1;
 				green_ghost.x = i;
 				green_ghost.y = j;
+				green_ghost.x_old = -1;
+				green_ghost.y_old = -1;
 			}
 			else{
 				green_ghost_board[i][j] = 0;
@@ -377,117 +383,69 @@ function move_randomly(x, y){
 	return positions[num];
 } 
 
-function move_torwards_pacman(x, y){
+function move_torwards_pacman(x, y, ghost){
 	let position = new Array();
 	let best_price = Math.abs(x - shape.i) + Math.abs(y - shape.j);
 	position[0] = x;
 	position[1] = y;
 	let curr_price = 0;
-	if (x+1  < 19 && board[x+1][y] != 4){
-		curr_price = Math.abs(x+1 - shape.i) + Math.abs(y - shape.j)
-		if (best_price >= curr_price){
+	let counter =0;
+	if (x+1  < 19 && board[x+1][y] != 4 && !(ghost.x_old == x+1 && ghost.y_old == y)){
+		curr_price = get_price(shape.i, x+1, shape.j, y) + Math.abs(x+1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price >= curr_price || counter == 0){
 			best_price = curr_price;	
 			position[0] = x+1;
 			position[1] = y;
+			counter++;
 		}			
 	}
-	if (x-1 > 0 && board[x-1][y] != 4){
-		curr_price = Math.abs(x-1 - shape.i) + Math.abs(y - shape.j)
-		if (best_price >= curr_price){
+	if (x-1 > 0 && board[x-1][y] != 4 && !(ghost.x_old == x-1 && ghost.y_old == y) ){
+		curr_price = get_price(shape.i, x-1, shape.j, y) + Math.abs(x-1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price >= curr_price || counter == 0){
 			best_price = curr_price;	
 			position[0] = x-1;
 			position[1] = y;
+			counter++;
 		}			
 	}
-	if (y-1 > 0 && board[x][y-1] != 4){
-		curr_price = Math.abs(x - shape.i) + Math.abs(y - 1 - shape.j)
-		if (best_price >= curr_price){
+	if (y-1 > 0 && board[x][y-1] != 4 && !(ghost.x_old == x && ghost.y_old == y-1) ){
+		curr_price = get_price(shape.i, x, shape.j, y-1) + Math.abs(x - shape.i) + Math.abs(y - 1 - shape.j)
+		if (best_price >= curr_price || counter == 0){
 			best_price = curr_price;	
 			position[0] = x;
 			position[1] = y-1;
+			counter++;
 		}				
 	}
-	if (y+1 < 12 && board[x][y+1] != 4){
-		curr_price = Math.abs(x - shape.i) + Math.abs(y + 1 - shape.j)
-		if (best_price >= curr_price){
+	if (y+1 < 12 && board[x][y+1] != 4 && !(ghost.x_old == x && ghost.y_old == y+1)){
+		curr_price = get_price(shape.i, x, shape.j, y+1) + Math.abs(x - shape.i) + Math.abs(y + 1 - shape.j)
+		if (best_price >= curr_price || counter == 0){
 			best_price = curr_price;	
 			position[0] = x;
 			position[1] = y + 1;
+			counter++;
 		}			
 	}	
-	if (position[0] == x && position[1] ==y){
-		return move_randomly(x, y);
-	}
-	// if (x+1 < 19 && y+1 < 12 && board[x+1][y+1] != 4 ){
-	// 	curr_price = Math.abs(x + 1 - shape.i) + Math.abs(y + 1 - shape.j)
-	// 	if (best_price >= curr_price){
-	// 		if (board[x+1][y] != 4){
-	// 			position[0] = x + 1;
-	// 			position[1] = y;
-	// 			best_price = curr_price;
-	// 		}
-	// 		else if (board[x][y+1] != 4){
-	// 			position[0] = x;
-	// 			position[1] = y + 1;
-	// 			best_price = curr_price;
-	// 		}
-			
-	// 	}
-	// }
-
-	// if (x+1 < 19 && y-1 > 0 && board[x+1][y-1] != 4){
-	// 	curr_price = Math.abs(x + 1 - shape.i) + Math.abs(y - 1 - shape.j)
-	// 	if (best_price >= curr_price){
-	// 		if (board[x+1][y] != 4){
-	// 			position[0] = x + 1;
-	// 			position[1] = y;
-	// 			best_price = curr_price;
-	// 		}
-	// 		else if (board[x][y-1] != 4){
-	// 			position[0] = x;
-	// 			position[1] = y - 1;
-	// 			best_price = curr_price;
-	// 		}
-			
-	// 	}
-	// }
-
-	// if (x-1 > 0  && y+1 < 12 && board[x-1][y+1] != 4 ){
-	// 	curr_price = Math.abs(x - 1 - shape.i) + Math.abs(y + 1 - shape.j)
-	// 	if (best_price >= curr_price){
-	// 		if (board[x-1][y] != 4){
-	// 			position[0] = x - 1;
-	// 			position[1] = y;
-	// 			best_price = curr_price;
-	// 		}
-	// 		else if (board[x][y+1] != 4){
-	// 			position[0] = x;
-	// 			position[1] = y + 1;
-	// 			best_price = curr_price;
-	// 		}
-			
-	// 	}
-	// }
-
-	// if (x-1 > 0  && y-1 > 0 && board[x-1][y-1] != 4){
-	// 	curr_price = Math.abs(x - 1 - shape.i) + Math.abs(y - 1 - shape.j)
-	// 	if (best_price >= curr_price){
-	// 		if (board[x-1][y] != 4){
-	// 			position[0] = x - 1;
-	// 			position[1] = y;
-	// 			best_price = curr_price;
-	// 		}
-	// 		else if (board[x][y-1] != 4){
-	// 			position[0] = x;
-	// 			position[1] = y - 1;
-	// 			best_price = curr_price;
-	// 		}
-			
-	// 	}
-	// }
-	
-
 	return position;	
+}
+function get_price(x_pac, x_ghost, y_pac, y_ghost){
+	let a;
+	let b;
+	if (x_pac-x_ghost == 0)
+		a= 0;
+	else
+		a = (y_pac - y_ghost) / (x_pac - x_ghost);
+	
+	b = y_pac -a*x_pac;
+	let penalty  = 0;
+
+	for (let x=x_pac; x <= x_ghost; x++){		
+		if (board[x][parseInt(a*x + b + 0.5, 10)] == 4)
+			penalty += 100;		
+	}	
+	return penalty;
+
+
 }
 
 function UpdatePosition() {
@@ -508,14 +466,24 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 3) {
-		if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
+		if (shape.i == 0 && shape.j == 6){
+			shape.i = 18;
+			movement_direction = 3;
+			Draw();
+		}
+		else if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
 			shape.i -= 1;
 			movement_direction = 2;
 			Draw();
 		}
 	}
 	if (x == 4) {
-		if (shape.i < 19 && board[shape.i + 1][shape.j] != 4) { // 19
+		if (shape.i == 19 && shape.j == 6){
+			shape.i = 1;
+			movement_direction = 3;
+			Draw();
+		}
+		else if (shape.i < 19 && board[shape.i + 1][shape.j] != 4) { // 19
 			shape.i += 1;
 			movement_direction = 3;
 			Draw();
@@ -529,22 +497,30 @@ function UpdatePosition() {
 
 	let new_xy = new Array();
 
-	if (interval_counter % 2 == 0){
+	if (interval_counter % 2 == 0){		
 		cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
-		new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y);
+		new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
 		cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		cyan_ghost.x_old = cyan_ghost.x;
+		cyan_ghost.y_old = cyan_ghost.y;
 		cyan_ghost.x = new_xy[0];
 		cyan_ghost.y = new_xy[1];	
 	
+		
 		red_ghost_board[red_ghost.x][red_ghost.y] = 0;
-		new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y);
+		new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
 		red_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		red_ghost.x_old = red_ghost.x;
+		red_ghost.y_old = red_ghost.y;
 		red_ghost.x = new_xy[0];
 		red_ghost.y = new_xy[1];
-	
+
+		
 		green_ghost_board[green_ghost.x][green_ghost.y] = 0;
-		new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y);
+		new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
 		green_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		green_ghost.x_old = green_ghost.x;
+		green_ghost.y_old = green_ghost.y;
 		green_ghost.x = new_xy[0];
 		green_ghost.y = new_xy[1];	
 	}
