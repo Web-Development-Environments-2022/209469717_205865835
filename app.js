@@ -2,6 +2,7 @@ var context;
 var shape = new Object();
 var board;
 var score;
+var tries;
 var pac_color;
 var start_time;
 var time_elapsed;
@@ -39,13 +40,14 @@ function to_game_page() {
 // 	context = canvas.getContext("2d");	
 // 	Start();
 // });
+tries=5;
+score = 0;
 
 function Start() {
 	board = new Array();
 	red_ghost_board = new Array();
 	cyan_ghost_board = new Array();
 	green_ghost_board = new Array()
-	score = 0;
 	pac_color = "yellow";
 	var cnt = 120;
 	var food_remain = 50;
@@ -172,6 +174,13 @@ function Start() {
 					food_remain--;
 					board[i][j] = 1;
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+				// 	let randI = i;
+				// 	let randJ = j;
+				// 	// while ((randI <= Math.abs(i/3)+3 || j <= Math.abs(j/3)+3) && board[i][j] != 4){
+				// 		while ((randI < Math.round(i/3) || randJ < Math.round(i/3) ) && board[randI][randJ] != 4){
+				// 		randI = Math.round(Math.random(randI)*randI);
+				// 		randJ = Math.round(Math.random(randJ));
+				// 	}
 					shape.i = i;
 					shape.j = j;					
 					pacman_remain--;
@@ -234,6 +243,7 @@ function GetKeyPressed() {
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
+	lblTries.value = tries;
 	lblTime.value = time_elapsed;
 	for (var i = 0; i < 21; i++) { // 20
 		for (var j = 0; j < 16; j++) { // 15
@@ -555,8 +565,29 @@ function UpdatePosition() {
 	}
 	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j)){
 		window.clearInterval(interval);
-		window.alert("You lost");
+		tries--;
+		window.alert("You lost - Remaining Tries: " + tries);
+		if(tries == 0){
+			window.clearInterval(interval);
+			window.alert("Game Over");
+			window.alert("Press OK to return to main menu");
+			score = 0; //restart score
+			tries = 5; //restart tries
+			to_game_page();
+		}
+		else if (window.confirm('Press OK to retry, or CANCEL to return to main menu'))
+		{
+			score-=10;
+			Start();
+		}
+		else
+		{
+			tries = 5; //restart tries
+			score = 0; //restart score
+			to_game_page();
+		}
 	}
 	interval_counter++;
+	
 }
 
