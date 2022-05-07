@@ -367,6 +367,119 @@ function move_randomly(x, y){
 	return positions[num];
 } 
 
+function move_torwards_pacman(x, y){
+	let position = new Array();
+	let best_price = Math.abs(x - shape.i) + Math.abs(y - shape.j);
+	position[0] = x;
+	position[1] = y;
+	let curr_price = 0;
+	if (x+1  < 19 && board[x+1][y] != 4){
+		curr_price = Math.abs(x+1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price >= curr_price){
+			best_price = curr_price;	
+			position[0] = x+1;
+			position[1] = y;
+		}			
+	}
+	if (x-1 > 0 && board[x-1][y] != 4){
+		curr_price = Math.abs(x-1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price >= curr_price){
+			best_price = curr_price;	
+			position[0] = x-1;
+			position[1] = y;
+		}			
+	}
+	if (y-1 > 0 && board[x][y-1] != 4){
+		curr_price = Math.abs(x - shape.i) + Math.abs(y - 1 - shape.j)
+		if (best_price >= curr_price){
+			best_price = curr_price;	
+			position[0] = x;
+			position[1] = y-1;
+		}				
+	}
+	if (y+1 < 12 && board[x][y+1] != 4){
+		curr_price = Math.abs(x - shape.i) + Math.abs(y + 1 - shape.j)
+		if (best_price >= curr_price){
+			best_price = curr_price;	
+			position[0] = x;
+			position[1] = y + 1;
+		}			
+	}	
+	if (position[0] == x && position[1] ==y){
+		return move_randomly(x, y);
+	}
+	// if (x+1 < 19 && y+1 < 12 && board[x+1][y+1] != 4 ){
+	// 	curr_price = Math.abs(x + 1 - shape.i) + Math.abs(y + 1 - shape.j)
+	// 	if (best_price >= curr_price){
+	// 		if (board[x+1][y] != 4){
+	// 			position[0] = x + 1;
+	// 			position[1] = y;
+	// 			best_price = curr_price;
+	// 		}
+	// 		else if (board[x][y+1] != 4){
+	// 			position[0] = x;
+	// 			position[1] = y + 1;
+	// 			best_price = curr_price;
+	// 		}
+			
+	// 	}
+	// }
+
+	// if (x+1 < 19 && y-1 > 0 && board[x+1][y-1] != 4){
+	// 	curr_price = Math.abs(x + 1 - shape.i) + Math.abs(y - 1 - shape.j)
+	// 	if (best_price >= curr_price){
+	// 		if (board[x+1][y] != 4){
+	// 			position[0] = x + 1;
+	// 			position[1] = y;
+	// 			best_price = curr_price;
+	// 		}
+	// 		else if (board[x][y-1] != 4){
+	// 			position[0] = x;
+	// 			position[1] = y - 1;
+	// 			best_price = curr_price;
+	// 		}
+			
+	// 	}
+	// }
+
+	// if (x-1 > 0  && y+1 < 12 && board[x-1][y+1] != 4 ){
+	// 	curr_price = Math.abs(x - 1 - shape.i) + Math.abs(y + 1 - shape.j)
+	// 	if (best_price >= curr_price){
+	// 		if (board[x-1][y] != 4){
+	// 			position[0] = x - 1;
+	// 			position[1] = y;
+	// 			best_price = curr_price;
+	// 		}
+	// 		else if (board[x][y+1] != 4){
+	// 			position[0] = x;
+	// 			position[1] = y + 1;
+	// 			best_price = curr_price;
+	// 		}
+			
+	// 	}
+	// }
+
+	// if (x-1 > 0  && y-1 > 0 && board[x-1][y-1] != 4){
+	// 	curr_price = Math.abs(x - 1 - shape.i) + Math.abs(y - 1 - shape.j)
+	// 	if (best_price >= curr_price){
+	// 		if (board[x-1][y] != 4){
+	// 			position[0] = x - 1;
+	// 			position[1] = y;
+	// 			best_price = curr_price;
+	// 		}
+	// 		else if (board[x][y-1] != 4){
+	// 			position[0] = x;
+	// 			position[1] = y - 1;
+	// 			best_price = curr_price;
+	// 		}
+			
+	// 	}
+	// }
+	
+
+	return position;	
+}
+
 function UpdatePosition() {
 	board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
@@ -406,31 +519,31 @@ function UpdatePosition() {
 
 	let new_xy = new Array();
 
-	cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
-	new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
-	cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
-	cyan_ghost.x = new_xy[0];
-	cyan_ghost.y = new_xy[1];	
-
-	red_ghost_board[red_ghost.x][red_ghost.y] = 0;
-	new_xy = move_randomly(red_ghost.x, red_ghost.y);
-	red_ghost_board[new_xy[0]][new_xy[1]] = 1;
-	red_ghost.x = new_xy[0];
-	red_ghost.y = new_xy[1];
-
-	green_ghost_board[green_ghost.x][green_ghost.y] = 0;
-	new_xy = move_randomly(green_ghost.x, green_ghost.y);
-	green_ghost_board[new_xy[0]][new_xy[1]] = 1;
-	green_ghost.x = new_xy[0];
-	green_ghost.y = new_xy[1];
-
+	if (interval_counter % 2 == 0){
+		cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
+		new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y);
+		cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		cyan_ghost.x = new_xy[0];
+		cyan_ghost.y = new_xy[1];	
+	
+		red_ghost_board[red_ghost.x][red_ghost.y] = 0;
+		new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y);
+		red_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		red_ghost.x = new_xy[0];
+		red_ghost.y = new_xy[1];
+	
+		green_ghost_board[green_ghost.x][green_ghost.y] = 0;
+		new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y);
+		green_ghost_board[new_xy[0]][new_xy[1]] = 1;
+		green_ghost.x = new_xy[0];
+		green_ghost.y = new_xy[1];	
+	}
+	
 
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
-	if ((green_ghost.i == shape.i && green_ghost.j == shape.j) || (cyan_ghost.i == shape.i && cyan_ghost.j == shape.j) || (red_ghost.i == shape.i && red_ghost.j == shape.j)){
-		window.clearInterval(interval);
-		window.alert("mongol kid Die IRL");
-	}
+
+	
 	if (score >= 20 && time_elapsed <= 10) {
 		pac_color = "cyan";
 	}
@@ -439,6 +552,10 @@ function UpdatePosition() {
 		window.alert("Game completed");
 	} else {
 		Draw();
+	}
+	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j)){
+		window.clearInterval(interval);
+		window.alert("You lost");
 	}
 	interval_counter++;
 }
