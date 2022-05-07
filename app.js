@@ -1,3 +1,4 @@
+
 var context;
 var shape = new Object();
 var board;
@@ -40,6 +41,7 @@ function to_game_page() {
 // 	context = canvas.getContext("2d");	
 // 	Start();
 // });
+
 tries=5;
 score = 0;
 
@@ -180,13 +182,13 @@ function Start() {
 					food_remain--;
 					board[i][j] = 1;
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-				// 	let randI = i;
-				// 	let randJ = j;
-				// 	// while ((randI <= Math.abs(i/3)+3 || j <= Math.abs(j/3)+3) && board[i][j] != 4){
-				// 		while ((randI < Math.round(i/3) || randJ < Math.round(i/3) ) && board[randI][randJ] != 4){
-				// 		randI = Math.round(Math.random(randI)*randI);
-				// 		randJ = Math.round(Math.random(randJ));
-				// 	}
+					// 	let randI = i;
+					// 	let randJ = j;
+					// 	// while ((randI <= Math.abs(i/3)+3 || j <= Math.abs(j/3)+3) && board[i][j] != 4){
+					// 		while ((randI < Math.round(i/3) || randJ < Math.round(i/3) ) && board[randI][randJ] != 4){
+					// 		randI = Math.round(Math.random(randI)*randI);
+					// 		randJ = Math.round(Math.random(randJ));
+					// 	}
 					shape.i = i;
 					shape.j = j;					
 					pacman_remain--;
@@ -249,7 +251,7 @@ function GetKeyPressed() {
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	lblTries.value = tries;
+	// lblTries.value = tries;
 	lblTime.value = time_elapsed;
 	for (var i = 0; i < 21; i++) { // 20
 		for (var j = 0; j < 16; j++) { // 15
@@ -428,6 +430,7 @@ function move_torwards_pacman(x, y, ghost){
 	}	
 	return position;	
 }
+
 function get_price(x_pac, x_ghost, y_pac, y_ghost){
 	let a;
 	let b;
@@ -492,8 +495,7 @@ function UpdatePosition() {
 	if (board[shape.i][shape.j] == 1) {
 		score++;
 	}
-	board[shape.i][shape.j] = 2;
-		
+	board[shape.i][shape.j] = 2;			
 
 	let new_xy = new Array();
 
@@ -524,6 +526,8 @@ function UpdatePosition() {
 		green_ghost.x = new_xy[0];
 		green_ghost.y = new_xy[1];	
 	}
+
+
 	
 
 	var currentTime = new Date();
@@ -564,6 +568,5 @@ function UpdatePosition() {
 		}
 	}
 	interval_counter++;
-	
 }
 
