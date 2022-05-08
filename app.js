@@ -16,7 +16,11 @@ var red_ghost = new Object();
 var cyan_ghost = new Object();
 var green_ghost = new Object();
 
+var cherry = new Object();
+var cherry_eaten = 0;
+
 var interval_counter =0;
+
 
 var waka_audio = document.getElementById("waka");        
 
@@ -49,7 +53,8 @@ function Start() {
 	board = new Array();
 	red_ghost_board = new Array();
 	cyan_ghost_board = new Array();
-	green_ghost_board = new Array()
+	green_ghost_board = new Array();
+	cherry_board = new Array();
 	pac_color = "yellow";
 	var cnt = 120;
 	var food_remain = 50;
@@ -66,8 +71,9 @@ function Start() {
 		red_ghost_board[i] = new Array();
 		cyan_ghost_board[i] = new Array();
 		green_ghost_board[i] = new Array();
+		cherry_board[i] = new Array();
 		for (var j = 0; j < 13; j++) {
-
+			cherry_board[i][j] = 0;
 			if (i == 1 && j == 1){
 				red_ghost_board[i][j] = 1;
 				red_ghost.x = i;
@@ -205,6 +211,12 @@ function Start() {
 		board[emptyCell[0]][emptyCell[1]] = 1;
 		food_remain--;
 	}
+
+	var emptyCellForCherry = findRandomEmptyCell(board);
+	cherry_board[emptyCellForCherry[0]][emptyCellForCherry[1]] = 1;
+	cherry.x = emptyCellForCherry[0];
+	cherry.y = emptyCellForCherry[1];
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -224,11 +236,11 @@ function Start() {
 }
 
 function findRandomEmptyCell(board) {
-	var i = Math.floor(Math.random() * 21 + 1);
-	var j = Math.floor(Math.random() * 13 + 1);
+	var i = Math.floor(Math.random() * 19 + 1);
+	var j = Math.floor(Math.random() * 11 + 1);
 	while (board[i][j] != 0) {
-		i = Math.floor(Math.random() * 21 + 1);
-		j = Math.floor(Math.random() * 13 + 1);
+		i = Math.floor(Math.random() * 19 + 1);
+		j = Math.floor(Math.random() * 11 + 1);
 	}
 	return [i, j];
 }
@@ -305,13 +317,16 @@ function Draw() {
 				context.fill();
 			}
 			if (red_ghost_board[i][j] == 1){
-				draw_ghost(context, 30, center.x, center.y, "red")
+				draw_ghost(context, 30, center.x, center.y, "red");
 			}
 			if (cyan_ghost_board[i][j] == 1){
-				draw_ghost(context, 30, center.x, center.y, "cyan")
+				draw_ghost(context, 30, center.x, center.y, "cyan");
 			}	
 			if (green_ghost_board[i][j] == 1){
-				draw_ghost(context, 30, center.x, center.y, "green")
+				draw_ghost(context, 30, center.x, center.y, "green");
+			}
+			if (cherry_board[i][j] == 1 && cherry_eaten == 0){
+				draw_cherry(context, center.x, center.y );
 			}
 		}
 	}
@@ -352,6 +367,47 @@ function draw_ghost(context, radius, x , y, color="red") {
 	context.beginPath();
 	context.arc(x + head_size / 4,y+ -head_size / 2, head_size / 8, 0, 2 * Math.PI);
 	context.fill();
+}
+
+
+function draw_cherry(context, x, y){
+	// context.fillStyle = "purple";
+    // context.beginPath();
+    // context.arc(x, y, 15, 0, 2 * Math.PI);
+    // context.fill();
+
+	context.moveTo(x, y);
+	context.bezierCurveTo(x-40, y-60, x, y, x+15, y+20);
+	context.lineWidth = 1;
+
+	context.strokeStyle = '#006600';
+	context.stroke();
+
+	context.beginPath();
+	context.arc(x+15, y+20, 15, 0, 2 * Math.PI, false);
+	context.fillStyle = 'red';
+	context.fill();
+	context.lineWidth= 1;
+	context.strokeStyle= '#000000';
+	context.stroke();
+
+	context.moveTo(x, y);
+	context.bezierCurveTo(x-40, y-60, x, y, x+30, y+15);
+	context.lineWidth = 1;
+
+	context.strokeStyle = '#006600';
+	context.stroke();
+
+	context.beginPath();
+	context.arc(x+30, y+15, 15, 0, 2 * Math.PI, false);
+	context.fillStyle = 'red';
+	context.fill();
+	context.lineWidth= 1;
+	context.strokeStyle= '#000000';
+	context.stroke();
+
+
+
 }
 
 function move_randomly(x, y){
@@ -501,34 +557,48 @@ function UpdatePosition() {
 
 	if (interval_counter % 2 == 0){		
 		cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
-		new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
+		if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y))
+			new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
+		else
+			new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
 		cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
 		cyan_ghost.x_old = cyan_ghost.x;
 		cyan_ghost.y_old = cyan_ghost.y;
 		cyan_ghost.x = new_xy[0];
 		cyan_ghost.y = new_xy[1];	
-	
-		
+			
 		red_ghost_board[red_ghost.x][red_ghost.y] = 0;
-		new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
+		if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (red_ghost.x == green_ghost.x && red_ghost.y == green_ghost.y))
+			new_xy = move_randomly(red_ghost.x, red_ghost.y);
+		else
+			new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
 		red_ghost_board[new_xy[0]][new_xy[1]] = 1;
 		red_ghost.x_old = red_ghost.x;
 		red_ghost.y_old = red_ghost.y;
 		red_ghost.x = new_xy[0];
 		red_ghost.y = new_xy[1];
-
 		
 		green_ghost_board[green_ghost.x][green_ghost.y] = 0;
-		new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
+		if ((green_ghost.x == red_ghost.x && green_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y))
+			new_xy = move_randomly(green_ghost.x, green_ghost.y);
+		else
+			new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
 		green_ghost_board[new_xy[0]][new_xy[1]] = 1;
 		green_ghost.x_old = green_ghost.x;
 		green_ghost.y_old = green_ghost.y;
 		green_ghost.x = new_xy[0];
-		green_ghost.y = new_xy[1];	
+		green_ghost.y = new_xy[1];			
+		
+	}
+	if (cherry_eaten == 0 && interval_counter % 5 == 0){
+		cherry_board[cherry.x][cherry.y] = 0;
+		new_xy = move_randomly(cherry.x, cherry.y);
+		cherry_board[new_xy[0]][new_xy[1]] = 1;
+		cherry.x = new_xy[0];
+		cherry.y = new_xy[1];
 	}
 
 
-	
 
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
@@ -542,6 +612,13 @@ function UpdatePosition() {
 		window.alert("Game completed");
 	} else {
 		Draw();
+	}	
+	if (shape.i == cherry.x && shape.j == cherry.y && cherry_eaten == 0){
+		score += 20;
+		cherry_board[cherry.x][cherry.y] = 0;
+		cherry.x = -1;
+		cherry.y = -1;
+		cherry_eaten = 1;
 	}
 	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j)){
 		window.clearInterval(interval);
