@@ -252,13 +252,25 @@ function Start() {
 					food_remain--;
 					board[i][j] = 1;
 				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					// 	let randI = i;
-					// 	let randJ = j;
-					// 	// while ((randI <= Math.abs(i/3)+3 || j <= Math.abs(j/3)+3) && board[i][j] != 4){
-					// 		while ((randI < Math.round(i/3) || randJ < Math.round(i/3) ) && board[randI][randJ] != 4){
-					// 		randI = Math.round(Math.random(randI)*randI);
-					// 		randJ = Math.round(Math.random(randJ));
+					// randI = Math.round(19*Math.random());
+					// randJ = Math.round(11*Math.random());
+					// while (randI > 14 || randI < 6){
+					// 	randI = Math.round(19*Math.random());
+					// 	if (board[randI][randJ] == 4 || board[randI][randJ] == 1 || board[randI][randJ] == 0 || board[randI][randJ] == 3){
+					// 		randI = Math.round(19*Math.random());
 					// 	}
+					// }
+					// while (randJ > 8 || randJ < 4){
+					// 	randJ = Math.round(19*Math.random());
+					// 	if (board[randI][randJ] == 4 || board[randI][randJ] == 1 || board[randI][randJ] == 0 || board[randI][randJ] == 3){
+					// 		randJ = Math.round(19*Math.random());
+					// 	}
+					// }
+
+					// shape.i = randI;
+					// shape.j = randJ;					
+					// pacman_remain--;
+					// board[randI][randJ] = 2;
 					shape.i = i;
 					shape.j = j;					
 					pacman_remain--;
@@ -327,7 +339,7 @@ function GetKeyPressed() {
 function Draw() {
 	canvas.width = canvas.width; //clean board
 	lblScore.value = score;
-	// lblTries.value = tries;
+	lblTries.value = tries;
 	lblTime.value = time_elapsed;
 	for (var i = 0; i < 21; i++) { // 20
 		for (var j = 0; j < 16; j++) { // 15
@@ -698,7 +710,7 @@ function UpdatePosition() {
 			tries = 5; //restart tries
 			to_game_page();
 		}
-		else if (window.confirm('Press OK to retry, or CANCEL to return to main menu'))
+		else if (tries > 0)
 		{
 			score-=10;
 			Start();
