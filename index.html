@@ -10,9 +10,9 @@
 	<body class="main_body">
 		<div id="welcoming_page" >
 			<h>Welcome to PacMan</h>
-			<br>
-			<button class="cool_button" onclick="to_game_page()">Log in</button>
+			<br>				
 			<button class="cool_button" onclick="to_register_page()">Register</button>
+			<button class="cool_button" onclick="to_login_page()">Log in</button>
 		</div>
 
 		
@@ -32,17 +32,132 @@
 			</div>
 		</div>
 
-		<div id="register_page" style="display: none;" class="register_page">
-			<label> Register now </label> 			
+		<form action="action_page.php">
+			<div id="register_page" style="display: none;" class="register_page">
+				<label> Register now </label> 			
+				<br>
+				<br>
+				<label for="user_name"><b>User Name</b></label>
+				<input type="text" placeholder="Enter User Name" name="user_name" id="user_name" required="true">
+				<br>
+				<br>
+				<label for="psw"><b>password</b></label>
+				<input type="password" placeholder="Enter Password" name="password" id="password" required="true">
+				<br>
+				<br>
+				<label for="full_name"><b>Full Name</b></label>
+				<input type="text" placeholder="Enter Full Name" name="full_name" id="full_name" required="true">
+				<br>
+				<br>	
+				<label for="email"><b>Email</b></label>
+				<input type="text" placeholder="Enter Email" name="email" id="email" required="true">
+				<br>
+				<br>
+				<label for="email" class="pick_date"><b>Birth date</b></label>
+				<select name="month" id="month" class="pick_date"></select>
+				<select name="day" id="day" class="pick_date"></select>
+				<select name="year" id="year" class="pick_date"></select>
+				<br>
+				<br>
+				<button class="cool_button" onclick="to_main_page_from_register()">Back</button>				
+				<button type="submit" class="cool_button" onclick="to_main_page_from_register()">Submit	</button>			
+			</div>
+		</form>
+		
+
+		<div id="login_page" style="display: none;" class="login_page">
+			<label> Login now </label> 			
 			<br>
 			<br>
-			<label for="email"><b>Email</b></label>
-			<input type="text" placeholder="Enter Email" name="email" id="email" required>
+			<label for="user_name"><b>User Name</b></label>
+			<input type="text" placeholder="Enter User Name" name="user_name" id="user_name" required>
 			<br>
 			<br>
 			<label for="psw"><b>Password</b></label>
 			<input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-		
+			<br>
+			<br>
+			<button class="cool_button" onclick="to_main_page_from_login()">Back</button>
+			<button class="cool_button" onclick="to_options_page_from_login()">Login</button>		
+		</div>
+
+		<div id="options_page" style="display: none;" class="options_page">
+			<div class ="option_splitscreen">
+
+				<div class="left">
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<label> Keyboard </label> 		
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<label> Number of point balls </label> 	
+					<br>
+					<br>
+					<br>
+					<br>
+					<br>
+					<label> Balls colors </label> 	
+					<br>
+					<br>
+					<br>
+					<label> Game duration (In seconds) </label> 
+					<br>
+					<br>
+					<br>
+					<label> Number of ghosts </label> 
+				</div>
+
+				<div class="right">
+					<button class="key_button" onclick="">↑</button>	
+					<br>	
+					<button class="key_button" onclick="">←</button>		
+					<button class="key_button" onclick="">→</button>		
+					<br>
+					<button class="key_button" onclick="">↓</button>	
+					<br>
+					<br>
+					<br>
+					<select name="num_balls" id="num_balls" class="pick_num_balls"></select>
+					<br>
+					<br>
+					<br>
+					<label> type 1 </label> 	
+					<input type="color" id="head" name="head"value="#e66465">
+					<label> type 2 </label> 	
+					<input type="color" id="head" name="head"value="#f6b73c">
+					<label> type 3 </label> 	
+					<input type="color" id="head" name="head"value="#a25987">
+					<br>
+					<br>
+					<br>
+					<select name="duration" id="duration" class="pick_num_balls"></select>
+					<br>
+					<br>
+					<br>
+					<select name="ghosts" id="ghosts" class="pick_ghosts"></select>
+				</div>
+			</div>
+
+			<br>
+			<br>
+			<br>
+			<button  onclick="">Randomize Options</button>
+			<br>
+			<br>
+			<br>
+			<button class="cool_button" onclick="to_game_page_from_options()">Play</button>		
 		</div>
 
 		
