@@ -49,6 +49,61 @@ function to_game_page() {
 
   }
 
+  function to_main_page_from_register() {
+	var welcoming_p = document.getElementById("welcoming_page");
+	var register_p = document.getElementById("register_page");
+	welcoming_p.style.display = "block";
+	register_p.style.display = "none";
+  }
+
+  function to_login_page() {
+	var welcoming_p = document.getElementById("welcoming_page");
+	var login_p = document.getElementById("login_page");
+	welcoming_p.style.display = "none";
+	login_p.style.display = "block";
+  }
+
+  function to_main_page_from_login() {
+	var welcoming_p = document.getElementById("welcoming_page");
+	var login_p = document.getElementById("login_page");
+	welcoming_p.style.display = "block";
+	login_p.style.display = "none";
+  }
+
+
+  function to_game_page_from_options() {
+	var game_p = document.getElementById("game_page");
+	var options_p = document.getElementById("options_page");
+	if (game_p.style.display === "none") {
+		game_p.style.display = "block";
+		options_p.style.display = "none";
+		context = canvas.getContext("2d");			
+		Start();		
+	} else {
+		game_p.style.display = "none";
+		options_p.style.display = "block";
+		window.clearInterval(interval);
+	}
+  }
+
+
+  function to_options_page_from_login(){
+	var options_p = document.getElementById("options_page");
+	var login_p = document.getElementById("login_page");
+	options_p.style.display = "block";
+	login_p.style.display = "none";
+  }
+
+  $( document ).ready(function() {
+	var year = new Date().getFullYear();
+	for (var i=1900; i<=year; i++) $("#year").append('<option value=' + i + '>' + i + '</option>');
+	for (var i=1; i<=12; i++) $("#month").append('<option value=' + i + '>' + i + '</option>');
+	for (var i=1; i<=31; i++) $("#day").append('<option value=' + i + '>' + i + '</option>');
+
+	for (var i=60; i<=600; i++) $("#duration").append('<option value=' + i + '>' + i + '</option>');
+	for (var i=50; i<=90; i++) $("#num_balls").append('<option value=' + i + '>' + i + '</option>');
+	for (var i=1; i<=4; i++) $("#ghosts").append('<option value=' + i + '>' + i + '</option>');
+  });
 
 // $(document).ready(function() {
 // 	context = canvas.getContext("2d");	
