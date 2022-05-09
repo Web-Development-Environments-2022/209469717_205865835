@@ -20,6 +20,7 @@ var cherry = new Object();
 var cherry_eaten = 0;
 
 var interval_counter =0;
+var tp_cooldown = 0;
 
 
 var waka_audio = document.getElementById("waka");        
@@ -38,6 +39,14 @@ function to_game_page() {
 		welcoming_p.style.display = "block";
 		window.clearInterval(interval);
 	}
+  }
+
+  function to_register_page() {
+	var welcoming_p = document.getElementById("welcoming_page");
+	var register_p = document.getElementById("register_page");
+	welcoming_p.style.display = "none";
+	register_p.style.display = "block";
+
   }
 
 
@@ -525,9 +534,10 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 3) {
-		if (shape.i == 0 && shape.j == 6){
-			shape.i = 18;
+		if (shape.i == 0 && shape.j == 6 && tp_cooldown > 5){
+			shape.i = 19;
 			movement_direction = 3;
+			tp_cooldown = 0;
 			Draw();
 		}
 		else if (shape.i > 0 && board[shape.i - 1][shape.j] != 4) {
@@ -537,9 +547,10 @@ function UpdatePosition() {
 		}
 	}
 	if (x == 4) {
-		if (shape.i == 19 && shape.j == 6){
-			shape.i = 1;
+		if (shape.i == 19 && shape.j == 6 && tp_cooldown > 5){
+			shape.i = 0;
 			movement_direction = 3;
+			tp_cooldown = 0;
 			Draw();
 		}
 		else if (shape.i < 19 && board[shape.i + 1][shape.j] != 4) { // 19
@@ -645,5 +656,6 @@ function UpdatePosition() {
 		}
 	}
 	interval_counter++;
+	tp_cooldown++;
 }
 
