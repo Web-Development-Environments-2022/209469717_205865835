@@ -1,4 +1,3 @@
-
 var context;
 var shape = new Object();
 var board;
@@ -15,12 +14,24 @@ var movement_direction;
 var red_ghost = new Object();
 var cyan_ghost = new Object();
 var green_ghost = new Object();
+var pink_ghost = new Object();
 
 var cherry = new Object();
 var cherry_eaten = 0;
 
 var interval_counter =0;
 var tp_cooldown = 0;
+
+
+var total_food =50;
+
+var normal_food_color ="#A9E698";
+var better_food_color ="#9717E5";
+var best_food_color ="#3C63E6";
+
+var num_of_ghosts = 4;
+
+var max_time = 600;
 
 
 var waka_audio = document.getElementById("waka");        
@@ -73,19 +84,50 @@ function to_game_page() {
 
   function to_game_page_from_options() {
 	var game_p = document.getElementById("game_page");
-	var options_p = document.getElementById("options_page");
-	if (game_p.style.display === "none") {
-		game_p.style.display = "block";
-		options_p.style.display = "none";
-		context = canvas.getContext("2d");			
-		Start();		
-	} else {
-		game_p.style.display = "none";
-		options_p.style.display = "block";
-		window.clearInterval(interval);
-	}
+	var options_p = document.getElementById("options_page");	
+	game_p.style.display = "block";
+	options_p.style.display = "none";
+	context = canvas.getContext("2d");			
+	
+
+	total_food = document.getElementById("num_balls").value;
+
+	normal_food_color = document.getElementById("ball_color1").value;
+	better_food_color = document.getElementById("ball_color2").value;
+	best_food_color = document.getElementById("ball_color3").value;
+
+	num_of_ghosts = document.getElementById("ghosts").value;
+
+	max_time = document.getElementById("duration").value;
+
+	Start();		
+	
   }
 
+  function randomize_settings(){
+	
+
+	document.getElementById("ball_color1").value = getRandomColor()
+
+	document.getElementById("ball_color2").value = getRandomColor()
+
+	document.getElementById("ball_color3").value = getRandomColor()
+
+	document.getElementById("num_balls").value = Math.floor(Math.random() * (90 - 50 + 1)) + 50;
+
+	document.getElementById("ghosts").value = Math.floor(Math.random() * (4 - 1 + 1)) + 1;
+
+	document.getElementById("duration").value = Math.floor(Math.random() * (600 - 60 + 1)) + 60;
+  }
+
+  function getRandomColor() {
+	var letters = '0123456789ABCDEF';
+	var color = '#';
+	for (var i = 0; i < 6; i++) {
+	  color += letters[Math.floor(Math.random() * 16)];
+	}
+	return color;
+  }
 
   function to_options_page_from_login(){
 	var options_p = document.getElementById("options_page");
@@ -105,6 +147,8 @@ function to_game_page() {
 	for (var i=1; i<=4; i++) $("#ghosts").append('<option value=' + i + '>' + i + '</option>');
   });
 
+
+
 // $(document).ready(function() {
 // 	context = canvas.getContext("2d");	
 // 	Start();
@@ -118,11 +162,12 @@ function Start() {
 	red_ghost_board = new Array();
 	cyan_ghost_board = new Array();
 	green_ghost_board = new Array();
+	pink_ghost_board = new Array();
 	cherry_board = new Array();
 	pac_color = "yellow";
 	var cnt = 120;
-	var food_remain = 50;
-	var pacman_remain = 1;
+	var food_remain = total_food;
+	// var pacman_remain = 1;
 	start_time = new Date();
 	// waka_audio.play()		
 	
@@ -135,10 +180,11 @@ function Start() {
 		red_ghost_board[i] = new Array();
 		cyan_ghost_board[i] = new Array();
 		green_ghost_board[i] = new Array();
+		pink_ghost_board[i] = new Array();
 		cherry_board[i] = new Array();
 		for (var j = 0; j < 13; j++) {
 			cherry_board[i][j] = 0;
-			if (i == 1 && j == 1){
+			if (i == 1 && j == 1 ){
 				red_ghost_board[i][j] = 1;
 				red_ghost.x = i;
 				red_ghost.y = j;
@@ -149,7 +195,7 @@ function Start() {
 				red_ghost_board[i][j] = 0;
 			}
 
-			if (i == 18 && j == 11){
+			if (i == 18 && j == 11 && num_of_ghosts >= 2){
 				cyan_ghost_board[i][j] = 1;
 				cyan_ghost.x = i;
 				cyan_ghost.y = j;
@@ -159,7 +205,7 @@ function Start() {
 			else{
 				cyan_ghost_board[i][j] = 0;
 			}
-			if (i == 18 && j == 1){
+			if (i == 18 && j == 1 && num_of_ghosts >= 3){
 				green_ghost_board[i][j] = 1;
 				green_ghost.x = i;
 				green_ghost.y = j;
@@ -169,8 +215,17 @@ function Start() {
 			else{
 				green_ghost_board[i][j] = 0;
 			}
+			if (i == 1 && j == 11 && num_of_ghosts >= 4){
+				pink_ghost_board[i][j] = 1;
+				pink_ghost.x = i;
+				pink_ghost.y = j;
+				pink_ghost.x_old = -1;
+				pink_ghost.y_old = -1;
+			}
+			else{
+				pink_ghost_board[i][j] = 0;
+			}
 			
-
 			if (
 				(j == 0) ||				
 				(j == 12) ||
@@ -247,11 +302,12 @@ function Start() {
 			) {
 				board[i][j] = 4;
 			} else {
-				var randomNum = Math.random();
-				if (randomNum <= (1.0 * food_remain) / cnt) {
-					food_remain--;
-					board[i][j] = 1;
-				} else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
+				// var randomNum = Math.random();
+				// if (randomNum <= (1.0 * food_remain) / cnt) {
+				// 	food_remain--;
+				// 	board[i][j] = 1;
+				// } 
+				// else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
 					// randI = Math.round(19*Math.random());
 					// randJ = Math.round(11*Math.random());
 					// while (randI > 14 || randI < 6){
@@ -271,21 +327,43 @@ function Start() {
 					// shape.j = randJ;					
 					// pacman_remain--;
 					// board[randI][randJ] = 2;
-					shape.i = i;
-					shape.j = j;					
-					pacman_remain--;
-					board[i][j] = 2;						
-				} else {
+					// let pacPos = findRandomEmptyCellForPacman(board)
+					// shape.i = pacPos[0];
+					// shape.j = pacPos[1];					
+					// pacman_remain--;
+					// board[pacPos[0]][pacPos[1]] = 2;						
+				// } 
+				// else {
 					board[i][j] = 0;
-				}
+				// }
 				cnt--;
 			}
 		}
 	}
-	while (food_remain > 0) {
+	let pacPos = findRandomEmptyCellForPacman(board)
+	shape.i = pacPos[0];
+	shape.j = pacPos[1];
+	board[pacPos[0]][pacPos[1]] = 2;
+
+	let normal_food = Math.floor(food_remain * 0.6);
+	while (normal_food > 0) {
 		var emptyCell = findRandomEmptyCell(board);
 		board[emptyCell[0]][emptyCell[1]] = 1;
-		food_remain--;
+		normal_food--;
+	}
+
+	let better_food = Math.floor(food_remain * 0.3);
+	while (better_food > 0) {
+		var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 1.1;
+		better_food--;
+	}
+
+	let best_food = Math.floor(food_remain * 0.1);
+	while (best_food  > 0) {
+		var emptyCell = findRandomEmptyCell(board);
+		board[emptyCell[0]][emptyCell[1]] = 1.2;
+		best_food--;
 	}
 
 	var emptyCellForCherry = findRandomEmptyCell(board);
@@ -310,6 +388,17 @@ function Start() {
 	);
 	interval = setInterval(UpdatePosition, 180);
 }
+
+function findRandomEmptyCellForPacman(board) {
+	var i = Math.floor(Math.random() * (14 - 5 + 1)) + 5;
+	var j = Math.floor(Math.random() * (9 - 3 + 1)) + 3;
+	while (board[i][j] != 0) {
+		i = Math.floor(Math.random() * (14 - 5 + 1)) + 5;
+		j = Math.floor(Math.random() * (9 - 3 + 1)) + 3;
+	}
+	return [i, j];
+}
+
 
 function findRandomEmptyCell(board) {
 	var i = Math.floor(Math.random() * 19 + 1);
@@ -384,7 +473,17 @@ function Draw() {
 			} else if (board[i][j] == 1) {
 				context.beginPath();
 				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
-				context.fillStyle = "white"; //color
+				context.fillStyle = normal_food_color; //color
+				context.fill();
+			} else if (board[i][j] == 1.1) {
+				context.beginPath();
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
+				context.fillStyle = better_food_color; //color
+				context.fill();
+			} else if (board[i][j] == 1.2) {
+				context.beginPath();
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
+				context.fillStyle = best_food_color; //color
 				context.fill();
 			} else if (board[i][j] == 4) {
 				context.beginPath();
@@ -400,6 +499,9 @@ function Draw() {
 			}	
 			if (green_ghost_board[i][j] == 1){
 				draw_ghost(context, 30, center.x, center.y, "green");
+			}
+			if (pink_ghost_board[i][j] == 1){
+				draw_ghost(context, 30, center.x, center.y, "pink");
 			}
 			if (cherry_board[i][j] == 1 && cherry_eaten == 0){
 				draw_cherry(context, center.x, center.y );
@@ -447,10 +549,7 @@ function draw_ghost(context, radius, x , y, color="red") {
 
 
 function draw_cherry(context, x, y){
-	// context.fillStyle = "purple";
-    // context.beginPath();
-    // context.arc(x, y, 15, 0, 2 * Math.PI);
-    // context.fill();
+	
 
 	context.moveTo(x, y);
 	context.bezierCurveTo(x-40, y-60, x, y, x+15, y+20);
@@ -627,45 +726,71 @@ function UpdatePosition() {
 		}
 	}
 	if (board[shape.i][shape.j] == 1) {
-		score++;
+		score+= 5;
+	}
+	if (board[shape.i][shape.j] == 1.1) {
+		score+= 15;
+	}
+	if (board[shape.i][shape.j] == 1.2) {
+		score+= 25;
 	}
 	board[shape.i][shape.j] = 2;			
 
 	let new_xy = new Array();
 
 	if (interval_counter % 2 == 0){		
-		cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
-		if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y))
-			new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
-		else
-			new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
-		cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
-		cyan_ghost.x_old = cyan_ghost.x;
-		cyan_ghost.y_old = cyan_ghost.y;
-		cyan_ghost.x = new_xy[0];
-		cyan_ghost.y = new_xy[1];	
-			
-		red_ghost_board[red_ghost.x][red_ghost.y] = 0;
-		if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (red_ghost.x == green_ghost.x && red_ghost.y == green_ghost.y))
-			new_xy = move_randomly(red_ghost.x, red_ghost.y);
-		else
-			new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
-		red_ghost_board[new_xy[0]][new_xy[1]] = 1;
-		red_ghost.x_old = red_ghost.x;
-		red_ghost.y_old = red_ghost.y;
-		red_ghost.x = new_xy[0];
-		red_ghost.y = new_xy[1];
+
+			red_ghost_board[red_ghost.x][red_ghost.y] = 0;
+			if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (red_ghost.x == green_ghost.x && red_ghost.y == green_ghost.y) || (red_ghost.x == pink_ghost.x && red_ghost.y == pink_ghost.y))
+				new_xy = move_randomly(red_ghost.x, red_ghost.y);
+			else
+				new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
+			red_ghost_board[new_xy[0]][new_xy[1]] = 1;
+			red_ghost.x_old = red_ghost.x;
+			red_ghost.y_old = red_ghost.y;
+			red_ghost.x = new_xy[0];
+			red_ghost.y = new_xy[1];
+	
 		
-		green_ghost_board[green_ghost.x][green_ghost.y] = 0;
-		if ((green_ghost.x == red_ghost.x && green_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y))
-			new_xy = move_randomly(green_ghost.x, green_ghost.y);
-		else
-			new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
-		green_ghost_board[new_xy[0]][new_xy[1]] = 1;
-		green_ghost.x_old = green_ghost.x;
-		green_ghost.y_old = green_ghost.y;
-		green_ghost.x = new_xy[0];
-		green_ghost.y = new_xy[1];			
+		if (num_of_ghosts >= 2){
+			cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
+			if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y) || (cyan_ghost.x == pink_ghost.x && cyan_ghost.y == pink_ghost.y))
+				new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
+			else
+				new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
+			cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
+			cyan_ghost.x_old = cyan_ghost.x;
+			cyan_ghost.y_old = cyan_ghost.y;
+			cyan_ghost.x = new_xy[0];
+			cyan_ghost.y = new_xy[1];
+		}
+
+		if (num_of_ghosts >= 3){
+			green_ghost_board[green_ghost.x][green_ghost.y] = 0;
+			if ((green_ghost.x == red_ghost.x && green_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y) || (green_ghost.x == pink_ghost.x && green_ghost.y == pink_ghost.y))
+				new_xy = move_randomly(green_ghost.x, green_ghost.y);
+			else
+				new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
+			green_ghost_board[new_xy[0]][new_xy[1]] = 1;
+			green_ghost.x_old = green_ghost.x;
+			green_ghost.y_old = green_ghost.y;
+			green_ghost.x = new_xy[0];
+			green_ghost.y = new_xy[1];	
+		}
+		if (num_of_ghosts >= 4){
+			pink_ghost_board[pink_ghost.x][pink_ghost.y] = 0;
+			if ((pink_ghost.x == red_ghost.x && pink_ghost.y == red_ghost.y) || (cyan_ghost.x == pink_ghost.x && cyan_ghost.y == pink_ghost.y) || (green_ghost.x == pink_ghost.x && green_ghost.y == pink_ghost.y))
+				new_xy = move_randomly(pink_ghost.x, pink_ghost.y);
+			else
+				new_xy = move_torwards_pacman(pink_ghost.x, pink_ghost.y, pink_ghost);
+			pink_ghost_board[new_xy[0]][new_xy[1]] = 1;
+			pink_ghost.x_old = pink_ghost.x;
+			pink_ghost.y_old = pink_ghost.y;
+			pink_ghost.x = new_xy[0];
+			pink_ghost.y = new_xy[1];
+		}
+		
+		
 		
 	}
 	if (cherry_eaten == 0 && interval_counter % 5 == 0){
@@ -676,29 +801,28 @@ function UpdatePosition() {
 		cherry.y = new_xy[1];
 	}
 
-
-
 	var currentTime = new Date();
 	time_elapsed = (currentTime - start_time) / 1000;
 
 	
-	if (score >= 20 && time_elapsed <= 10) {
-		pac_color = "cyan";
+	if (time_elapsed >= max_time){
+		window.clearInterval(interval);
+		window.alert("Time's out, you lost!");
 	}
-	if (score == 50) {
+	if (score >= 400) {
 		window.clearInterval(interval);
 		window.alert("Game completed");
 	} else {
 		Draw();
 	}	
 	if (shape.i == cherry.x && shape.j == cherry.y && cherry_eaten == 0){
-		score += 20;
+		score += 50;
 		cherry_board[cherry.x][cherry.y] = 0;
 		cherry.x = -1;
 		cherry.y = -1;
 		cherry_eaten = 1;
 	}
-	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j)){
+	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)){
 		window.clearInterval(interval);
 		tries--;
 		window.alert("You lost - Remaining Tries: " + tries);
