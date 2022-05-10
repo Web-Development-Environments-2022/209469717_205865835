@@ -124,12 +124,12 @@
 				</div>
 
 				<div class="right">
-					<button class="key_button" onclick="">↑</button>	
+					<button class="key_button" id="key_button_up" onclick="">↑</button>	
 					<br>	
-					<button class="key_button" onclick="">←</button>		
-					<button class="key_button" onclick="">→</button>		
+					<button class="key_button" id="key_button_left" onclick="">←</button>		
+					<button class="key_button" id="key_button_right" onclick="">→</button>		
 					<br>
-					<button class="key_button" onclick="">↓</button>	
+					<button class="key_button" id="key_button_down" onclick="">↓</button>	
 					<br>
 					<br>
 					<br>
@@ -137,12 +137,12 @@
 					<br>
 					<br>
 					<br>
-					<label> type 1 </label> 	
-					<input type="color" id="head" name="head"value="#e66465">
-					<label> type 2 </label> 	
-					<input type="color" id="head" name="head"value="#f6b73c">
-					<label> type 3 </label> 	
-					<input type="color" id="head" name="head"value="#a25987">
+					<label> 5 point ball </label> 	
+					<input type="color" id="ball_color1" name="ball_color1"value="#A9E698">
+					<label> 15 point ball </label> 	
+					<input type="color" id="ball_color2" name="ball_color2"value="#9717E5">
+					<label> 25 point ball </label> 	
+					<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6">
 					<br>
 					<br>
 					<br>
@@ -157,7 +157,7 @@
 			<br>
 			<br>
 			<br>
-			<button  onclick="">Randomize Options</button>
+			<button  onclick="randomize_settings()">Randomize Options</button>
 			<br>
 			<br>
 			<br>
