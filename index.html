@@ -14,27 +14,7 @@
 			<button class="cool_button" onclick="to_register_page()">Register</button>
 			<button class="cool_button" onclick="to_login_page()">Log in</button>
 		</div>
-
-		
-		<div id="game_page" style="display: none;" class="game_page">
-			<button onclick="to_game_page()">to welcome</button>
-			<audio id="waka" loop src="AudioFiles/wakawaka.mp3"></audio>
-			<div id="score" >
-				<label for="lblScore">SCORE:</label>
-				<input id="lblScore" type="text" />
-			</div>
-			<div id="time">
-				<label for="lblTime">TIME:</label>
-				<input id="lblTime" type="text" />
-			</div>
-			<div id="time">
-				<label for="lblTries">Tries:</label>
-				<input id="lblTries" type="text" />
-			</div>
-			<div id="game">		
-				<canvas id="canvas" height="780" width="1200"></canvas>
-			</div>
-		</div>
+				
 
 		<form action="action_page.php">
 			<div id="register_page" style="display: none;" class="register_page">
@@ -85,85 +65,161 @@
 			<button class="cool_button" onclick="to_options_page_from_login()">Login</button>		
 		</div>
 
-		<div id="options_page" style="display: none;" class="options_page">
-			<div class ="option_splitscreen">
-
-				<div class="left">
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<label> Keyboard </label> 		
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<label> Number of point balls </label> 	
-					<br>
-					<br>
-					<br>
-					<br>
-					<br>
-					<label> Balls colors </label> 	
-					<br>
-					<br>
-					<br>
-					<label> Game duration (In seconds) </label> 
-					<br>
-					<br>
-					<br>
-					<label> Number of ghosts </label> 
+		<div>
+			<div id="options_page" style="display: none;" class="options_page">
+				<br>
+				<br>
+				<br>
+				<div class ="option_splitscreen">
+	
+					<div class="left">
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<label> Keyboard </label> 		
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<label> Number of point balls </label> 	
+						<br>
+						<br>
+						<br>
+						<br>
+						<br>
+						<label> Balls colors </label> 	
+						<br>
+						<br>
+						<br>
+						<label> Game duration (In seconds) </label> 
+						<br>
+						<br>
+						<br>
+						<label> Number of ghosts </label> 
+					</div>
+	
+					<div class="right">
+						<button class="key_button" id="key_button_up" onclick="swich_controls('key_button_up')">↑</button>	
+						<br>	
+						<button class="key_button" id="key_button_left" onclick="swich_controls('key_button_left')">←</button>		
+						<button class="key_button" id="key_button_right" onclick="swich_controls('key_button_right')">→</button>		
+						<br>
+						<button class="key_button" id="key_button_down" onclick="swich_controls('key_button_down')">↓</button>	
+						<br>
+						<br>
+						<br>
+						<select name="num_balls" id="num_balls" class="pick_num_balls"></select>
+						<br>
+						<br>
+						<br>
+						<label> 5 point ball </label> 	
+						<input type="color" id="ball_color1" name="ball_color1"value="#A9E698">
+						<label> 15 point ball </label> 	
+						<input type="color" id="ball_color2" name="ball_color2"value="#9717E5">
+						<label> 25 point ball </label> 	
+						<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6">
+						<br>
+						<br>
+						<br>
+						<select name="duration" id="duration" class="pick_num_balls"></select>
+						<br>
+						<br>
+						<br>
+						<select name="ghosts" id="ghosts" class="pick_ghosts"></select>
+					</div>
 				</div>
-
-				<div class="right">
-					<button class="key_button" id="key_button_up" onclick="">↑</button>	
-					<br>	
-					<button class="key_button" id="key_button_left" onclick="">←</button>		
-					<button class="key_button" id="key_button_right" onclick="">→</button>		
-					<br>
-					<button class="key_button" id="key_button_down" onclick="">↓</button>	
-					<br>
-					<br>
-					<br>
-					<select name="num_balls" id="num_balls" class="pick_num_balls"></select>
-					<br>
-					<br>
-					<br>
-					<label> 5 point ball </label> 	
-					<input type="color" id="ball_color1" name="ball_color1"value="#A9E698">
-					<label> 15 point ball </label> 	
-					<input type="color" id="ball_color2" name="ball_color2"value="#9717E5">
-					<label> 25 point ball </label> 	
-					<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6">
-					<br>
-					<br>
-					<br>
-					<select name="duration" id="duration" class="pick_num_balls"></select>
-					<br>
-					<br>
-					<br>
-					<select name="ghosts" id="ghosts" class="pick_ghosts"></select>
-				</div>
+	
+				<br>
+				<button  onclick="randomize_settings()">Randomize Options</button>
+				<br>
+				<button class="cool_button_play" onclick="to_game_page_from_options()">Start New Game</button>		
 			</div>
+				<div id="game_page" style="display: none;" class="game_page">
+					<br>
+					<br>
+					<br>
+					<br>
+					<div class="game_status">
 
-			<br>
-			<br>
-			<br>
-			<button  onclick="randomize_settings()">Randomize Options</button>
-			<br>
-			<br>
-			<br>
-			<button class="cool_button" onclick="to_game_page_from_options()">Play</button>		
+						<label for="lblScore">SCORE:</label>
+						<input id="lblScore" type="game_text" />
+						<label for="lblTime">TIME:</label>
+						<input id="lblTime" type="game_text" />
+						<label for="lblTries">Tries:</label>
+						<input id="lblTries" type="game_text" />
+
+					</div>	
+					<br>
+					<br>
+					<canvas id="canvas" height="780" width="1200"></canvas>
+					
+					<label class="ingame_options">Player Name:</label>
+					<label class="ingame_options"> kekw </label>
+					<br>
+					<br>
+					<label class="ingame_options"> Up key:</label>
+					<label class="ingame_options" id="display_up"></label>
+					<br>
+					<br>
+					<label class="ingame_options"> Right key:</label>
+					<label class="ingame_options" id="display_right"></label>
+					<br>
+					<br>
+					<label class="ingame_options"> Left key:</label>
+					<label class="ingame_options" id="display_left"></label>
+					<br>
+					<br>
+					<label class="ingame_options"> Down key:</label>
+					<label class="ingame_options" id="display_down"></label>
+					<br>
+					<br>
+					<label class="ingame_options" for="ball_number"> Ball number:</label>
+					<label class="ingame_options" id="ball_number"></label>
+					<br>
+					<br>
+					<label class="ingame_options" for="b_color1"> 5 point ball color:</label> 					
+					<input  type="color" id="b_color1" readonly>
+					<br>
+					<br>
+					<label class="ingame_options" for="b_color2"> 15 point ball color:</label>
+					<input type="color" id="b_color2" readonly>
+					<br>
+					<br>
+					<label class="ingame_options" for="b_color3"> 25 point ball color:</label>
+					<input  type="color" id="b_color3" readonly>
+					<br>
+					<br>
+					<label class="ingame_options" for="game_d"> Game duration:</label>
+					<label class="ingame_options" id="game_d"></label>
+					<label class="ingame_options"> seconds</label>
+					<br>
+					<br>
+					<label  class="ingame_options" for="ghosts_num"> Number of ghosts:</label>
+					<label  class="ingame_options" id="ghosts_num"></label>
+					<br>
+					<br>
+					<label></label>					
+					
+					<button class="cool_button_play" onclick="play_again()">Start New Game</button>		
+
+				</div>
+			</div>												
+			
+			  <div id="nav" style="display: none;" class="nav">	
+				<button class="nav_button" id="menu_Options" onclick="to_options_from_game()">Options</button>	
+				<button class="nav_button" id="menu_about" onclick="">About</button>					
+				<button class="nav_button" id="menu_logout" onclick="logout_from_game()">Log Out</button>	
+			  </div>
 		</div>
-
 		
 
 		
