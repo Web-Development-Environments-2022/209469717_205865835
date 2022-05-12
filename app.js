@@ -8,6 +8,8 @@ var start_time;
 var time_elapsed;
 var interval;
 
+var paused = 0;
+
 var movement_counter;
 var movement_direction;
 
@@ -33,12 +35,19 @@ var num_of_ghosts = 4;
 
 var max_time = 600;
 
+var key_up = 38;
+var key_down = 40;
+var key_left = 37;
+var key_right = 39;
 
-var waka_audio = document.getElementById("waka");        
 
+
+
+var death_sound = new Audio('AudioFiles/death_sound.mp3');
+death_sound.volume = 0.5;
 
 function to_game_page() {
-	var game_p = document.getElementById("game_page");
+	var game_p = document.getElementById("game");
 	var welcoming_p = document.getElementById("welcoming_page");
 	if (game_p.style.display === "none") {
 		game_p.style.display = "block";
@@ -51,6 +60,8 @@ function to_game_page() {
 		window.clearInterval(interval);
 	}
   }
+
+ 
 
   function to_register_page() {
 	var welcoming_p = document.getElementById("welcoming_page");
@@ -100,12 +111,63 @@ function to_game_page() {
 
 	max_time = document.getElementById("duration").value;
 
+
 	Start();		
 	
   }
 
+  function to_options_from_game(){
+	var game_p = document.getElementById("game_page");
+	var options_p = document.getElementById("options_page");	
+	score = 0; //restart score
+	tries = 5; //restart tries
+	cherry_eaten = 0;
+	clearInterval(interval);
+	game_p.style.display = "none";
+	options_p.style.display = "block";
+	
+  }
+
+  function logout_from_game(){
+	var game_p = document.getElementById("game_page");
+	var welcoming_p = document.getElementById("welcoming_page");
+	var options_p = document.getElementById("options_page");	
+	document.getElementById("nav").style.display = "none";
+	if (game_p.style.display == "block"){
+		score = 0;
+		tries = 5;
+		cherry_eaten = 0;
+		clearInterval(interval);
+		game_p.style.display = "none";
+		welcoming_p.style.display = "block";
+	}
+	if(options_p.style.display == "block"){
+		options_p.style.display = "none";
+		welcoming_p.style.display = "block";
+	}
+
+	
+  }
+
+  function play_again(){
+	window.clearInterval(interval);
+	cherry_eaten = 0;
+	score = 0; 
+	tries = 5; 
+	Start();
+  }
+
   function randomize_settings(){
 	
+	key_up = 38;
+	key_down = 40;
+	key_left = 37;
+	key_right = 39;		
+
+	document.getElementById("key_button_up").innerText = "↑";
+	document.getElementById("key_button_down").innerText = "↓";
+	document.getElementById("key_button_left").innerText = "←";
+	document.getElementById("key_button_right").innerText = "→";
 
 	document.getElementById("ball_color1").value = getRandomColor()
 
@@ -132,9 +194,13 @@ function to_game_page() {
   function to_options_page_from_login(){
 	var options_p = document.getElementById("options_page");
 	var login_p = document.getElementById("login_page");
+	var nav = document.getElementById("nav");
 	options_p.style.display = "block";
+	nav.style.display = "block";
 	login_p.style.display = "none";
   }
+
+
 
   $( document ).ready(function() {
 	var year = new Date().getFullYear();
@@ -158,6 +224,20 @@ tries=5;
 score = 0;
 
 function Start() {
+	ball_number.innerText  = document.getElementById("num_balls").value;
+	b_color1.value = document.getElementById("ball_color1").value;
+	b_color2.value = document.getElementById("ball_color2").value;
+	b_color3.value = document.getElementById("ball_color3").value;
+	game_d.innerText = document.getElementById("duration").value;
+	ghosts_num.innerText = document.getElementById("ghosts").value;
+
+	document.getElementById("display_up").innerText = document.getElementById("key_button_up").innerText;
+	document.getElementById("display_down").innerText = document.getElementById("key_button_down").innerText;
+	document.getElementById("display_left").innerText = document.getElementById("key_button_left").innerText;
+	document.getElementById("display_right").innerText = document.getElementById("key_button_up").innerText;
+
+
+
 	board = new Array();
 	red_ghost_board = new Array();
 	cyan_ghost_board = new Array();
@@ -411,19 +491,63 @@ function findRandomEmptyCell(board) {
 }
 
 function GetKeyPressed() {
-	if (keysDown[38]) {
+	if (keysDown[key_up]) {
 		return 1;
 	}
-	if (keysDown[40]) {
+	if (keysDown[key_down]) {
 		return 2;
 	}
-	if (keysDown[37]) {
+	if (keysDown[key_left]) {
 		return 3;
 	}
-	if (keysDown[39]) {
+	if (keysDown[key_right]) {
 		return 4;
 	}
 }
+
+					
+
+function swich_controls(button_id) {
+	return new Promise((resolve) => {
+	  document.addEventListener('keydown', onKeyHandler);
+	  function onKeyHandler(e) {		
+		if (button_id == "key_button_up"){
+			key_up = e.keyCode;			
+			if (key_up == 38) document.getElementById("key_button_up").innerText = "↑"; else if(key_up == 40) document.getElementById("key_button_up").innerText = "↓"; else if(key_up == 37) document.getElementById("key_button_up").innerText = "←"; else if(key_up == 39) document.getElementById("key_button_up").innerText = "→";
+			else
+				document.getElementById("key_button_up").innerText = String.fromCharCode(e.keyCode);
+			// document.getElementById("display_up").innerText = document.getElementById("key_button_up").innerText;
+		}
+		else if (button_id == "key_button_down"){
+			key_down = e.keyCode;
+			if (key_down == 38) document.getElementById("key_button_down").innerText = "↑"; else if(key_down == 40) document.getElementById("key_button_down").innerText = "↓"; else if(key_down == 37) document.getElementById("key_button_down").innerText = "←"; else if(key_down == 39) document.getElementById("key_button_down").innerText = "→";
+			else
+				document.getElementById("key_button_down").innerText = String.fromCharCode(e.keyCode);
+			// document.getElementById("display_down").innerText = document.getElementById("key_button_down").innerText;
+		}
+		else if (button_id == "key_button_left"){
+			key_left = e.keyCode;
+			if (key_left == 38) document.getElementById("key_button_left").innerText = "↑"; else if(key_left == 40) document.getElementById("key_button_left").innerText = "↓"; else if(key_left == 37) document.getElementById("key_button_left").innerText = "←"; else if(key_left == 39) document.getElementById("key_button_left").innerText = "→";
+			else
+				document.getElementById("key_button_left").innerText = String.fromCharCode(e.keyCode);
+			// document.getElementById("display_left").innerText = document.getElementById("key_button_left").innerText;
+		}
+		else if (button_id == "key_button_right"){
+			key_right = e.keyCode;
+			if (key_right == 38) document.getElementById("key_button_right").innerText = "↑"; else if(key_right == 40) document.getElementById("key_button_right").innerText = "↓"; else if(key_right == 37) document.getElementById("key_button_right").innerText = "←"; else if(key_right == 39) document.getElementById("key_button_right").innerText = "→";
+			else
+				document.getElementById("key_button_right").innerText = String.fromCharCode(e.keyCode);
+			// document.getElementById("display_right").innerText = document.getElementById("key_button_right").innerText;
+		}
+		document.removeEventListener('keydown', onKeyHandler);
+		resolve();		
+	  }
+	});
+}
+
+
+
+
 
 function Draw() {
 	canvas.width = canvas.width; //clean board
@@ -682,8 +806,50 @@ function get_price(x_pac, x_ghost, y_pac, y_ghost){
 
 }
 
+function reset_after_death(){
+
+	red_ghost_board[red_ghost.x][red_ghost.y] = 0;
+	red_ghost_board[1][1] = 1;
+	red_ghost.x = 1;
+	red_ghost.y = 1;
+	red_ghost.x_old = -1;
+	red_ghost.y_old = -1;
+	
+	if (num_of_ghosts >= 2){
+		cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
+		cyan_ghost_board[18][11] = 1;
+		cyan_ghost.x = 18;
+		cyan_ghost.y = 11;
+		cyan_ghost.x_old = -1;
+		cyan_ghost.y_old = -1;
+	}
+	if (num_of_ghosts >= 3){
+		green_ghost_board[green_ghost.x][green_ghost.y] = 0;
+		green_ghost_board[18][1] = 1;
+		green_ghost.x = 18;
+		green_ghost.y = 1;
+		green_ghost.x_old = -1;
+		green_ghost.y_old = -1;
+	}
+	if (num_of_ghosts >= 4){
+		pink_ghost_board[pink_ghost.x][pink_ghost.y] = 0;
+		pink_ghost_board[1][11] = 1;
+		pink_ghost.x = 1;
+		pink_ghost.y = 11;
+		pink_ghost.x_old = -1;
+		pink_ghost.y_old = -1;
+	}
+	
+	board[shape.i][shape.j] = 0
+	let pacPos = findRandomEmptyCellForPacman(board)
+	shape.i = pacPos[0];
+	shape.j = pacPos[1];
+	board[pacPos[0]][pacPos[1]] = 2;
+}
+
 function UpdatePosition() {
-	board[shape.i][shape.j] = 0;
+	if (paused == 0){
+		board[shape.i][shape.j] = 0;
 	var x = GetKeyPressed();
 	if (x == 1) {
 		if (shape.j > 0 && board[shape.i][shape.j - 1] != 4) {
@@ -702,7 +868,7 @@ function UpdatePosition() {
 	if (x == 3) {
 		if (shape.i == 0 && shape.j == 6 && tp_cooldown > 5){
 			shape.i = 19;
-			movement_direction = 3;
+			movement_direction = 2;
 			tp_cooldown = 0;
 			Draw();
 		}
@@ -801,17 +967,23 @@ function UpdatePosition() {
 		cherry.y = new_xy[1];
 	}
 
-	var currentTime = new Date();
+	var currentTime = new Date();	
 	time_elapsed = (currentTime - start_time) / 1000;
 
 	
 	if (time_elapsed >= max_time){
 		window.clearInterval(interval);
+		score = 0; //restart score
+		tries = 5; //restart tries
+		cherry_eaten = 0;
 		window.alert("Time's out, you lost!");
 	}
 	if (score >= 400) {
 		window.clearInterval(interval);
-		window.alert("Game completed");
+		score = 0; //restart score
+		tries = 5; //restart tries
+		cherry_eaten = 0;
+		window.alert("Congratulations! you won!");
 	} else {
 		Draw();
 	}	
@@ -822,31 +994,45 @@ function UpdatePosition() {
 		cherry.y = -1;
 		cherry_eaten = 1;
 	}
-	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)){
-		window.clearInterval(interval);
+	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)){		
 		tries--;
-		window.alert("You lost - Remaining Tries: " + tries);
+		// window.alert("You lost - Remaining Tries: " + tries);
+		death_sound.play();
+		paused=1;
 		if(tries == 0){
 			window.clearInterval(interval);
-			window.alert("Game Over");
-			window.alert("Press OK to return to main menu");
+			window.alert("Game Over - You lost!");			
 			score = 0; //restart score
 			tries = 5; //restart tries
-			to_game_page();
-		}
-		else if (tries > 0)
-		{
-			score-=10;
-			Start();
+			cherry_eaten = 0;
+			// to_game_page();
+			// reset_after_death();
 		}
 		else
 		{
-			tries = 5; //restart tries
-			score = 0; //restart score
-			to_game_page();
+			score-=10;
+			// Start();
+			// to_game_page();
+			reset_after_death();
 		}
+		// else
+		// {
+		// 	tries = 5; //restart tries
+		// 	score = 0; //restart score
+		// 	// to_game_page();
+		// 	reset_after_death();
+		// }
 	}
 	interval_counter++;
 	tp_cooldown++;
+	}
+	else{
+		paused++;
+		if (paused == 15){
+			time_elapsed -= (30*180)/1000;
+			paused=0;
+		}
+			
+	}
+	
 }
-
