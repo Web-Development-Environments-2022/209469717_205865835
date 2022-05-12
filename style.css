@@ -3,7 +3,30 @@
 	background-color: rgb(10, 2, 10);
 	height: 60%;
 	width: 60%;	
+	float:left;
+	
 }   
+
+.game_status{	
+	/* left:-500px; */
+	float:left;
+	color:rgb(225, 208, 231);	
+	font-family: "Lucida Console", "Courier New", monospace;
+	background-color: #680e70;
+	font-size:20px;	
+}
+
+input[type="game_text"]
+{
+    color:rgb(17, 0, 32);	
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size:20px;	
+}
+.ingame_options{
+	color:rgb(226, 208, 233);	
+	font-family: "Lucida Console", "Courier New", monospace;
+	font-size:20px;	
+}
 
 .main_body{
 	background-color: rgb(22, 3, 46);
@@ -12,8 +35,7 @@
 }
 
 .game_page{
-	color: white;
-
+	color: white;	
 }
 .cool_button{
 	font-size:  4rem;;
@@ -79,7 +101,7 @@
 .key_button{
 	height: 75px;
 	width: 75px;
-	font-size:  2rem;;
+	font-size:  2rem;
 	margin-left: 45px;
 	margin-right: 45px;
 	margin-top: 15px;
@@ -97,7 +119,7 @@
 		0 0 0.25em white, 
 		0 0 0.35em rgb(203, 29, 247) ;
 
-	box-shadow: inset 0 0 0.45em 0 rgb(203, 29, 247), 0 0 0.65em 0 rgbrgb(203, 29, 247);
+	box-shadow: inset 0 0 0.45em 0 rgb(203, 29, 247), 0 0 0.65em 0 rgb(203, 29, 247);
 	position: relative;
 }
 
@@ -129,6 +151,7 @@
 	flex: 0.35;
   }
 
+
 .options_title{
 	text-align: center;
 	width: 0%;
@@ -139,3 +162,97 @@
 .pick_date{
 	margin:10px;
 }
+
+.nav{
+	background-color: #3600b4;
+	border: 1px solid #0d1be9;
+	text-align: center;
+
+	margin: 0;
+	padding: 0;
+	position: absolute;
+	top: 0;
+	left: 37%;
+}
+
+.nav_button{
+
+	font-size:  2rem;;
+	background-color: rgb(22, 3, 46);
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	color:rgb(231, 231, 233);
+	border: rgb(51, 29, 247) 4px solid;
+	padding: 0.2em 0.6em;
+	border-radius: 0.25em;
+
+	text-shadow:
+		0 0 0.25em white, 
+		0 0 0.35em rgb(51, 29, 247) ;
+
+	box-shadow: inset 0 0 0.45em 0 rgb(51, 29, 247), 0 0 0.65em 0 rgb(51, 29, 247);
+	position: relative;
+}
+
+.nav_button:hover{
+	text-shadow: none;
+	background-color: rgb(73, 6, 156);
+}
+
+.cool_button_play:hover::after{
+	opacity: 1;
+}
+
+.game_page .cool_button_play{
+	bottom: -200px;
+
+}
+
+.cool_button_play{
+	font-size:  1.5rem;;
+	margin: 10px;
+	/* background-color: rgb(22, 3, 46); */
+	background-image: linear-gradient(to left, violet, indigo, blue, green, yellow, orange, red);
+	display: inline-block;
+	cursor: pointer;
+	text-decoration: none;
+	color:rgb(0, 0, 0);
+	border: rgb(240, 230, 239) 4px solid;
+	padding: 0.2em 0.6em;
+	border-radius: 0.25em;
+
+	text-shadow:
+		0 0 0.125em white, 
+		0 0 0.35em rgb(39, 214, 245) ;
+
+	box-shadow: inset 0 0 0.45em 0 rgb(240, 230, 239), 0 0 0.65em 0 rgb(240, 230, 239);
+	position: relative;
+
+}
+
+
+.cool_button_play::after{
+	content: '';	
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	box-shadow: 0 0 2em 0.5em rgb(240, 230, 239);
+	opacity: 0;
+	background: rgb(240, 230, 239);
+	z-index: -1;
+	transition: opacity 100ms linear;
+}
+
+.cool_button_play:hover,
+.cool_button_play:focus{
+	text-shadow: none;
+}
+
+.cool_button_play:hover::after{
+	opacity: 0.5;
+}
+
+
