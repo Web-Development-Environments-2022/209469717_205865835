@@ -18,12 +18,21 @@ var cyan_ghost = new Object();
 var green_ghost = new Object();
 var pink_ghost = new Object();
 
+var fear_object = new Object();
+var scared_ghosts = 0;
+
 var cherry = new Object();
 var cherry_eaten = 0;
 
+var bonus_tries = new Object();
+var tries_eaten = 0;
+
+var bad_food = new Object();
+var bad_eaten = 0;
+var bad_timer = 0;
+
 var interval_counter =0;
 var tp_cooldown = 0;
-
 
 var total_food =50;
 
@@ -41,8 +50,13 @@ var key_left = 37;
 var key_right = 39;
 
 
+var bad_sound = new Audio('AudioFiles/bad_sound.mp3');
+bad_sound.volume = 0.5;
 
+var victory_sound = new Audio('AudioFiles/victory.mp3');
+victory_sound.volume = 0.5;
 
+var theme_song = new Audio('AudioFiles/theme1.mp3');
 var death_sound = new Audio('AudioFiles/death_sound.mp3');
 death_sound.volume = 0.5;
 
@@ -122,10 +136,14 @@ function to_game_page() {
 	score = 0; //restart score
 	tries = 5; //restart tries
 	cherry_eaten = 0;
+	tries_eaten = 0;
+	bad_timer = 0;
+	bad_eaten = 0
 	clearInterval(interval);
 	game_p.style.display = "none";
 	options_p.style.display = "block";
-	
+	theme_song.pause();
+	theme_song.currentTime =0;
   }
 
   function logout_from_game(){
@@ -137,6 +155,7 @@ function to_game_page() {
 		score = 0;
 		tries = 5;
 		cherry_eaten = 0;
+		tries_eaten = 0;
 		clearInterval(interval);
 		game_p.style.display = "none";
 		welcoming_p.style.display = "block";
@@ -145,6 +164,8 @@ function to_game_page() {
 		options_p.style.display = "none";
 		welcoming_p.style.display = "block";
 	}
+	theme_song.pause();
+	theme_song.currentTime =0;
 
 	
   }
@@ -152,6 +173,10 @@ function to_game_page() {
   function play_again(){
 	window.clearInterval(interval);
 	cherry_eaten = 0;
+	tries_eaten = 0;
+	bad_eaten =0;
+	bad_timer = 0;	
+	paused =0;
 	score = 0; 
 	tries = 5; 
 	Start();
@@ -236,7 +261,31 @@ function Start() {
 	document.getElementById("display_left").innerText = document.getElementById("key_button_left").innerText;
 	document.getElementById("display_right").innerText = document.getElementById("key_button_up").innerText;
 
+	if (!(theme_song.duration > 0 && !theme_song.paused)){
+		var song_num = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+		if (song_num == 1)	
+			theme_song = new Audio('AudioFiles/theme1.mp3');
+		else if (song_num == 2)
+			theme_song = new Audio('AudioFiles/theme2.mp3');
+		else
+			theme_song = new Audio('AudioFiles/theme3.mp3');			
+	}
+	else{
+		theme_song.pause();
+		theme_song.currentTime =0;
+		var song_num = Math.floor(Math.random() * (3 - 1 + 1)) + 1;
+		if (song_num == 1)	
+			theme_song = new Audio('AudioFiles/theme1.mp3');
+		else if (song_num == 2)
+			theme_song = new Audio('AudioFiles/theme2.mp3');
+		else
+			theme_song = new Audio('AudioFiles/theme3.mp3');
+	}
+	theme_song.volume = 0.25;
+	theme_song.play();
+	
 
+	scared_ghosts = 0;
 
 	board = new Array();
 	red_ghost_board = new Array();
@@ -244,6 +293,9 @@ function Start() {
 	green_ghost_board = new Array();
 	pink_ghost_board = new Array();
 	cherry_board = new Array();
+	fear_board = new Array()
+	tries_board = new Array();
+	bad_board = new Array();
 	pac_color = "yellow";
 	var cnt = 120;
 	var food_remain = total_food;
@@ -262,8 +314,14 @@ function Start() {
 		green_ghost_board[i] = new Array();
 		pink_ghost_board[i] = new Array();
 		cherry_board[i] = new Array();
+		fear_board[i] = new Array();
+		tries_board[i] = new Array();
+		bad_board[i] = new Array();
 		for (var j = 0; j < 13; j++) {
 			cherry_board[i][j] = 0;
+			fear_board[i][j] = 0;
+			tries_board[i][j] =0;
+			bad_board[i][j] = 0;
 			if (i == 1 && j == 1 ){
 				red_ghost_board[i][j] = 1;
 				red_ghost.x = i;
@@ -451,6 +509,21 @@ function Start() {
 	cherry.x = emptyCellForCherry[0];
 	cherry.y = emptyCellForCherry[1];
 
+	var fearCell = findRandomEmptyCell(board);
+	fear_board[fearCell[0]][fearCell[1]] = 1;
+	fear_object.x = fearCell[0];
+	fear_object.y = fearCell[1];
+
+	var tryCell = findRandomEmptyCell(board);
+	tries_board[tryCell[0]][tryCell[1]] = 1;
+	bonus_tries.x = tryCell[0];
+	bonus_tries.y = tryCell[1];
+
+	var badCell = findRandomEmptyCell(board);
+	bad_board[badCell[0]][badCell[1]] = 1;
+	bad_food.x = badCell[0];
+	bad_food.y = badCell[1];
+
 	keysDown = {};
 	addEventListener(
 		"keydown",
@@ -630,6 +703,76 @@ function Draw() {
 			if (cherry_board[i][j] == 1 && cherry_eaten == 0){
 				draw_cherry(context, center.x, center.y );
 			}
+			if (fear_board[i][j] == 1 && scared_ghosts == 0){
+				context.beginPath();
+				context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
+				context.fillStyle = "white"; //color
+
+				context.fill();
+				context.beginPath();
+				context.arc(center.x, center.y, 15, 0, 2 * Math.PI); // circle
+				context.fillStyle = "blue"; //color
+				context.fill();
+				
+				context.fill();
+				context.beginPath();
+				context.arc(center.x, center.y, 10, 0, 2 * Math.PI); // circle
+				context.fillStyle = "white"; //color
+				context.fill();
+
+				context.fill();
+				context.beginPath();
+				context.arc(center.x, center.y, 5, 0, 2 * Math.PI); // circle
+				context.fillStyle = "blue"; //color
+				context.fill();
+			}
+			if (tries_board[i][j] == 1 && tries_eaten == 0){
+				context.fill();
+				context.beginPath();
+				context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
+				context.fillStyle = "white"; //color
+				context.fill();
+
+				context.fill();
+				context.beginPath();
+				context.moveTo(center.x, center.y - 15);
+				context.lineTo(center.x, center.y + 15);
+				context.strokeStyle = 'red';
+				context.lineWidth = 7;
+				context.stroke()
+
+				context.fill();
+				context.beginPath();
+				context.moveTo(center.x - 15, center.y);
+				context.lineTo(center.x + 15, center.y);
+				context.strokeStyle = 'red';
+				context.lineWidth = 7;
+				context.stroke()
+			}
+
+			if (bad_board[i][j] == 1 && bad_eaten == 0){
+				context.fill();
+				context.beginPath();
+				context.arc(center.x, center.y, 20, 0, 2 * Math.PI); // circle
+				context.fillStyle = "red"; //color
+				context.fill();
+
+				context.fill();
+				context.beginPath();
+				context.moveTo(center.x - 10, center.y + 10);
+				context.lineTo(center.x + 10, center.y - 10);
+				context.strokeStyle = 'black';
+				context.lineWidth = 7;
+				context.stroke()
+
+				context.fill();
+				context.beginPath();
+				context.moveTo(center.x + 10, center.y + 10);
+				context.lineTo(center.x - 10, center.y - 10);
+				context.strokeStyle = 'black';
+				context.lineWidth = 7;
+				context.stroke()
+			}
 		}
 	}
 }
@@ -640,7 +783,10 @@ function draw_ghost(context, radius, x , y, color="red") {
 	let wave_size = head_size / waves;
 	context.save();
 	context.strokeStyle = "black";
-	context.fillStyle = color;
+	if (scared_ghosts > 0)
+		context.fillStyle = "blue";
+	else
+		context.fillStyle = color;
 	context.lineWidth =  radius * 0.05;
 	context.beginPath();
 	for (i = 0; i < waves; i++) {
@@ -655,7 +801,10 @@ function draw_ghost(context, radius, x , y, color="red") {
 	context.closePath();
 	context.fill();
 	context.stroke();
-	context.fillStyle = "white";
+	if (bad_timer > 0)
+		context.fillStyle = "red";
+	else 
+		context.fillStyle = "white";
 	context.beginPath();
 	context.arc(x+ -head_size / 2.5,y + -head_size / 2, head_size / 3, 0, 2 * Math.PI);
 	context.fill();
@@ -704,10 +853,8 @@ function draw_cherry(context, x, y){
 	context.lineWidth= 1;
 	context.strokeStyle= '#000000';
 	context.stroke();
-
-
-
 }
+
 
 function move_randomly(x, y){
 	let positions = new Array();
@@ -777,6 +924,52 @@ function move_torwards_pacman(x, y, ghost){
 	if (y+1 < 12 && board[x][y+1] != 4 && !(ghost.x_old == x && ghost.y_old == y+1)){
 		curr_price = get_price(shape.i, x, shape.j, y+1) + Math.abs(x - shape.i) + Math.abs(y + 1 - shape.j)
 		if (best_price >= curr_price || counter == 0){
+			best_price = curr_price;	
+			position[0] = x;
+			position[1] = y + 1;
+			counter++;
+		}			
+	}	
+	return position;	
+}
+
+function move_away_from_pacman(x, y, ghost){
+	let position = new Array();
+	let best_price = Math.abs(x - shape.i) + Math.abs(y - shape.j);
+	position[0] = x;
+	position[1] = y;
+	let curr_price = 0;
+	let counter =0;
+	if (x+1  < 19 && board[x+1][y] != 4 && !(ghost.x_old == x+1 && ghost.y_old == y)){
+		curr_price = get_price(shape.i, x+1, shape.j, y) + Math.abs(x+1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price <= curr_price || counter == 0){
+			best_price = curr_price;	
+			position[0] = x+1;
+			position[1] = y;
+			counter++;
+		}			
+	}
+	if (x-1 > 0 && board[x-1][y] != 4 && !(ghost.x_old == x-1 && ghost.y_old == y) ){
+		curr_price = get_price(shape.i, x-1, shape.j, y) + Math.abs(x-1 - shape.i) + Math.abs(y - shape.j)
+		if (best_price <= curr_price || counter == 0){
+			best_price = curr_price;	
+			position[0] = x-1;
+			position[1] = y;
+			counter++;
+		}			
+	}
+	if (y-1 > 0 && board[x][y-1] != 4 && !(ghost.x_old == x && ghost.y_old == y-1) ){
+		curr_price = get_price(shape.i, x, shape.j, y-1) + Math.abs(x - shape.i) + Math.abs(y - 1 - shape.j)
+		if (best_price <= curr_price || counter == 0){
+			best_price = curr_price;	
+			position[0] = x;
+			position[1] = y-1;
+			counter++;
+		}				
+	}
+	if (y+1 < 12 && board[x][y+1] != 4 && !(ghost.x_old == x && ghost.y_old == y+1)){
+		curr_price = get_price(shape.i, x, shape.j, y+1) + Math.abs(x - shape.i) + Math.abs(y + 1 - shape.j)
+		if (best_price <= curr_price || counter == 0){
 			best_price = curr_price;	
 			position[0] = x;
 			position[1] = y + 1;
@@ -904,13 +1097,18 @@ function UpdatePosition() {
 
 	let new_xy = new Array();
 
-	if (interval_counter % 2 == 0){		
+	if (interval_counter % 2 == 0 || bad_timer > 0){		
 
 			red_ghost_board[red_ghost.x][red_ghost.y] = 0;
 			if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (red_ghost.x == green_ghost.x && red_ghost.y == green_ghost.y) || (red_ghost.x == pink_ghost.x && red_ghost.y == pink_ghost.y))
 				new_xy = move_randomly(red_ghost.x, red_ghost.y);
-			else
-				new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
+			else{
+				if (scared_ghosts == 0)
+					new_xy = move_torwards_pacman(red_ghost.x, red_ghost.y, red_ghost);
+				else
+					new_xy = move_away_from_pacman(red_ghost.x, red_ghost.y, red_ghost);
+			}
+				
 			red_ghost_board[new_xy[0]][new_xy[1]] = 1;
 			red_ghost.x_old = red_ghost.x;
 			red_ghost.y_old = red_ghost.y;
@@ -922,8 +1120,12 @@ function UpdatePosition() {
 			cyan_ghost_board[cyan_ghost.x][cyan_ghost.y] = 0;
 			if ((cyan_ghost.x == red_ghost.x && cyan_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y) || (cyan_ghost.x == pink_ghost.x && cyan_ghost.y == pink_ghost.y))
 				new_xy = move_randomly(cyan_ghost.x, cyan_ghost.y);
-			else
-				new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
+				else{
+					if (scared_ghosts == 0)
+						new_xy = move_torwards_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
+					else
+						new_xy = move_away_from_pacman(cyan_ghost.x, cyan_ghost.y, cyan_ghost);
+				}
 			cyan_ghost_board[new_xy[0]][new_xy[1]] = 1;
 			cyan_ghost.x_old = cyan_ghost.x;
 			cyan_ghost.y_old = cyan_ghost.y;
@@ -935,8 +1137,12 @@ function UpdatePosition() {
 			green_ghost_board[green_ghost.x][green_ghost.y] = 0;
 			if ((green_ghost.x == red_ghost.x && green_ghost.y == red_ghost.y) || (cyan_ghost.x == green_ghost.x && cyan_ghost.y == green_ghost.y) || (green_ghost.x == pink_ghost.x && green_ghost.y == pink_ghost.y))
 				new_xy = move_randomly(green_ghost.x, green_ghost.y);
-			else
-				new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
+				else{
+					if (scared_ghosts == 0)
+						new_xy = move_torwards_pacman(green_ghost.x, green_ghost.y, green_ghost);
+					else
+						new_xy = move_away_from_pacman(green_ghost.x, green_ghost.y, green_ghost);
+				}
 			green_ghost_board[new_xy[0]][new_xy[1]] = 1;
 			green_ghost.x_old = green_ghost.x;
 			green_ghost.y_old = green_ghost.y;
@@ -947,8 +1153,12 @@ function UpdatePosition() {
 			pink_ghost_board[pink_ghost.x][pink_ghost.y] = 0;
 			if ((pink_ghost.x == red_ghost.x && pink_ghost.y == red_ghost.y) || (cyan_ghost.x == pink_ghost.x && cyan_ghost.y == pink_ghost.y) || (green_ghost.x == pink_ghost.x && green_ghost.y == pink_ghost.y))
 				new_xy = move_randomly(pink_ghost.x, pink_ghost.y);
-			else
-				new_xy = move_torwards_pacman(pink_ghost.x, pink_ghost.y, pink_ghost);
+				else{
+					if (scared_ghosts == 0)
+						new_xy = move_torwards_pacman(pink_ghost.x, pink_ghost.y, pink_ghost);
+					else
+						new_xy = move_away_from_pacman(pink_ghost.x, pink_ghost.y, pink_ghost);
+				}
 			pink_ghost_board[new_xy[0]][new_xy[1]] = 1;
 			pink_ghost.x_old = pink_ghost.x;
 			pink_ghost.y_old = pink_ghost.y;
@@ -976,13 +1186,18 @@ function UpdatePosition() {
 		score = 0; //restart score
 		tries = 5; //restart tries
 		cherry_eaten = 0;
+		tries_eaten =0;
 		window.alert("Time's out, you lost!");
 	}
-	if (score >= 400) {
+	if (score >= 500) {
+		victory_sound.play();
 		window.clearInterval(interval);
 		score = 0; //restart score
 		tries = 5; //restart tries
 		cherry_eaten = 0;
+		tries_eaten =0;		
+		theme_song.pause();
+		theme_song.currentTime = 0;		
 		window.alert("Congratulations! you won!");
 	} else {
 		Draw();
@@ -994,34 +1209,46 @@ function UpdatePosition() {
 		cherry.y = -1;
 		cherry_eaten = 1;
 	}
-	if ((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)){		
+	if (shape.i == fear_object.x && shape.j == fear_object.y && scared_ghosts == 0){
+		scared_ghosts = 25;
+		fear_board[fear_object.x][fear_object.y] = 0;
+		fear_object.x = -1;
+		fear_object.y = -1;
+	}
+	if (shape.i == bonus_tries.x && shape.j == bonus_tries.y && tries_eaten == 0){
+		tries += 1;
+		tries_board[bonus_tries.x][bonus_tries.y] = 0;
+		bonus_tries.x = -1;
+		bonus_tries.y = -1;
+	}
+	if (shape.i == bad_food.x && shape.j == bad_food.y && bad_eaten == 0){
+		bad_board[bad_food.x][bad_food.y] = 0;
+		bad_food.x = -1;
+		bad_food.y = -1;
+		bad_sound.play();
+		bad_timer = 30;
+	}
+	if (((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)) && scared_ghosts == 0){		
 		tries--;
-		// window.alert("You lost - Remaining Tries: " + tries);
+		bad_timer = 0;
 		death_sound.play();
 		paused=1;
-		if(tries == 0){
-			window.clearInterval(interval);
-			window.alert("Game Over - You lost!");			
+		if(tries == 0){			
+			paused=0;	
 			score = 0; //restart score
 			tries = 5; //restart tries
 			cherry_eaten = 0;
-			// to_game_page();
-			// reset_after_death();
+			tries_eaten =0;
+			theme_song.pause();
+			theme_song.currentTime = 0;
+			window.clearInterval(interval);
+			window.alert("Game Over - You lost!");
 		}
 		else
 		{
 			score-=10;
-			// Start();
-			// to_game_page();
 			reset_after_death();
 		}
-		// else
-		// {
-		// 	tries = 5; //restart tries
-		// 	score = 0; //restart score
-		// 	// to_game_page();
-		// 	reset_after_death();
-		// }
 	}
 	interval_counter++;
 	tp_cooldown++;
@@ -1034,5 +1261,10 @@ function UpdatePosition() {
 		}
 			
 	}
+	if (scared_ghosts > 0)
+		scared_ghosts --;
+	if (bad_timer > 0)
+		bad_timer --;
+
 	
 }
