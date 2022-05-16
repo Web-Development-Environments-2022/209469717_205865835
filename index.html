@@ -82,7 +82,7 @@
 						<br>
 						<br>
 						<br>
-						<label> Keyboard </label> 		
+						<label class="options_text"> Keyboard </label> 		
 						<br>
 						<br>
 						<br>
@@ -90,21 +90,26 @@
 						<br>
 						<br>
 						<br>
-						<label> Number of point balls </label> 	
+						<br>
+						<label class="options_text"> Number of point balls </label> 	
+						<br>
+						<br>
+						<br>
+						<br>
+						<label class="options_text"> Balls colors </label> 	
 						<br>
 						<br>
 						<br>
 						<br>
 						<br>
-						<label> Balls colors </label> 	
+						<label class="options_text"> Game duration (In seconds) </label> 
 						<br>
 						<br>
 						<br>
-						<label> Game duration (In seconds) </label> 
 						<br>
 						<br>
+						<label class="options_text"> Number of ghosts </label> 
 						<br>
-						<label> Number of ghosts </label> 
 					</div>
 	
 					<div class="right">
@@ -121,6 +126,7 @@
 						<br>
 						<br>
 						<br>
+						<br>
 						<label> 5 point ball </label> 	
 						<input type="color" id="ball_color1" name="ball_color1"value="#A9E698">
 						<label> 15 point ball </label> 	
@@ -130,16 +136,21 @@
 						<br>
 						<br>
 						<br>
+						<br>
+						<br>
 						<select name="duration" id="duration" class="pick_num_balls"></select>
 						<br>
 						<br>
 						<br>
-						<select name="ghosts" id="ghosts" class="pick_ghosts"></select>
+						<br>
+						<br>
+						<select name="ghosts" id="ghosts" class="pick_ghosts"></select>						
+						<br>
 					</div>
 				</div>
 	
 				<br>
-				<button  onclick="randomize_settings()">Randomize Options</button>
+				<button class="random_button" onclick="randomize_settings()">Randomize Options</button>
 				<br>
 				<button class="cool_button_play" onclick="to_game_page_from_options()">Start New Game</button>		
 			</div>
@@ -202,12 +213,24 @@
 					<label class="ingame_options" id="game_d"></label>
 					<label class="ingame_options"> seconds</label>
 					<br>
-					<br>
+					<br>					
 					<label  class="ingame_options" for="ghosts_num"> Number of ghosts:</label>
 					<label  class="ingame_options" id="ghosts_num"></label>
 					<br>
 					<br>
-					<label></label>					
+					<img class="picture_game" src="pictures/badGhost.png" >
+					<label  class="ingame_options"> Makes the ghosts go into a frenzy~!</label>
+					<br>
+					<br>
+					<img class="picture_game" src="pictures/pluspng.png" >
+					<label  class="ingame_options"> Extra health!</label>
+					<br>
+					<br>
+					<img  class="picture_game" src="pictures/blueGhostspng.png" >
+					<label  class="ingame_options"> Makes the ghosts scared and harmless!</label>
+					<br>
+					<label> </label>
+										
 					
 					<button class="cool_button_play" onclick="play_again()">Start New Game</button>		
 
