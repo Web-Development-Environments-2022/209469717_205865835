@@ -1,19 +1,7 @@
-// $.validator.setDefaults({
-//     submitHandler: function() {
-//         alert("success!")
-//         to_main_page_from_register()
-//     }
-// });
-
-//to_main_page_from_register()
-
-
-
+$.ajaxSetup({
+    async: false
+});
 $().ready(function() {
-    // validate the comment form when it is submitted
-    // $("#commentForm").validate();
-
-    // validate signup form on keyup and submit
     $("#register_page").validate({
         
         rules: {
@@ -54,13 +42,29 @@ $().ready(function() {
             topic: "Please select at least 2 topics"
         },
         submitHandler: function() {
-            alert("success!")
-            to_main_page_from_register()
+                regUser();
+            ;
         }
         
     });
+    $(".cancel").click(function() {
+        validator.resetForm();
+    });
+});
 
-    // propose username by combining first- and lastname
+    function regUser(){
+        var newUser = {
+        name: null,
+        pass: null,
+    }
+    newUser.name = un.value
+    newUser.pass = password.value
+    window.localStorage.setItem(newUser.name, newUser.pass );
+    to_main_page_from_register();
+    $("#register_page")[0].reset();
+    }
+
+
     $("#username").focus(function() {
         var firstname = $("#firstname").val();
         var lastname = $("#lastname").val();
@@ -70,7 +74,6 @@ $().ready(function() {
     });
 
     window.onbeforeunload = function() {
-        $('#register_page').submit();
        return true;
     };
     
@@ -89,17 +92,17 @@ $().ready(function() {
             return false;
         }
         return true;
-     });    
-
-});
-
-
+     });
+     
+    
 $().ready(function() {
-    // validate the comment form when it is submitted
-    // $("#commentForm").validate();
-
-    // validate signup form on keyup and submit
+    
     $("#login_page").validate({
+        submitHandler: function() {
+            loginBack();
+        },
+        onfocusout: false,
+
         rules: {
             user_name_login: {
                 required: true,
@@ -107,53 +110,34 @@ $().ready(function() {
             },
             psw_login: {
                 required: true,
-                minlength: 5,
-                checkPassword: true,
             },
         },
         messages: {
             user_name_login: {
                 required: "Please enter a username",
                 minlength: "Your username must consist of at least 2 characters",
-                checkDBlogin: "Username does not exist"
-            },
-            psw_login: {
-                required: "Please provide a password",
-                checkPassword: "Password is incorrect",
-                // pwcheck: "password must at least contain 1 letter and 1 digit",
-                minlength: "Your password must be at least 5 characters long"
+                checkDBlogin: "Username does not exist or password is incorrect"
             },
         },
-        // submitHandler: function() {
-        //     alert("success!")
-        //     to_main_page_from_register()
-        // }
-        // return: true
     }),
-    
-    $.validator.addMethod("checkDB", function(value) {
-        if (window.localStorage.getItem(value) == null){
-            return false;
-        }
-        return true;
-     });    
 
      $.validator.addMethod("checkDBlogin", function(value) {
-        if (window.localStorage.getItem(value) == null){
-            return false;
+        var checkLoginUser = {
+            name: null,
+            pass: null
         }
-        return true;
-     });    
-
-     $.validator.addMethod("checkPassword", function(value) {
-        if ((JSON.parse(window.localStorage.getItem(value))).pass != psw_login){
-            return false;
+        checkLoginUser.name = user_name_login.value
+        checkLoginUser.pass = psw_login.value
+        for ( var i = 0, len = localStorage.length; i < len; ++i ) {
+            if(localStorage.key(i) == user_name_login.value){
+                if(localStorage.getItem(localStorage.key(i)) == psw_login.value){
+                    return true;
+                }
+            }
         }
-        return true;
+        return false;
      });    
-
-
+     $(".cancel").click(function() {
+        validator.resetForm();
+    });
 });
-
-
-
