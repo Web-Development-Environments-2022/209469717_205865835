@@ -50,6 +50,17 @@ var key_left = 37;
 var key_right = 39;
 
 
+
+function openModal() {
+	document.getElementById("modal").showModal();
+  }
+function closeModal() {
+	document.getElementById("modal").close();
+  }
+
+ 
+
+
 var bad_sound = new Audio('AudioFiles/bad_sound.mp3');
 bad_sound.volume = 0.5;
 
