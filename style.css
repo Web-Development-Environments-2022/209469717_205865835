@@ -31,12 +31,13 @@ input[type="game_text"]
 .main_body{
 	background-color: rgb(22, 3, 46);
 	text-align: center;
-	color: white;
+	color: white;	
 }
 
 .game_page{
 	color: white;	
 }
+
 .cool_button{
 	font-size:  4rem;;
 	margin: 130px;
@@ -305,4 +306,39 @@ input[type="game_text"]
 
 .picture_game{
 	max-width: 20%;
+}
+
+
+.close-button {
+	border: none;
+	display: inline-block;
+	padding: 4px 8px;
+	vertical-align: middle;
+	overflow: hidden;
+	text-decoration: none;
+	color: inherit;
+	background-color: inherit;
+	text-align: center;
+	cursor: pointer;
+	white-space: nowrap;
+	position: absolute;
+	right: 0;
+	top: 0;
+	font-size: 15px;
+	font-weight: bold;
+  }
+
+.close-button:hover{
+	color :rgb(110, 110, 110);
+}
+
+.modal{
+
+	padding: 1em;
+	max-width: 30%;
+}
+
+.modal::backdrop{
+	background: linear-gradient(45deg,red, blue);
+	opacity: .2;
 }
