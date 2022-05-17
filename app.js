@@ -150,6 +150,17 @@ function to_game_page() {
 	tries_eaten = 0;
 	bad_timer = 0;
 	bad_eaten = 0
+	green_ghost.x = -1;
+	green_ghost.y = -1;
+
+	cyan_ghost.x = -1;
+	cyan_ghost.y = -1;
+
+	red_ghost.x = -1;
+	red_ghost.y = -1;
+
+	pink_ghost.x = -1;
+	pink_ghost.y = -1;
 	clearInterval(interval);
 	game_p.style.display = "none";
 	options_p.style.display = "block";
@@ -167,6 +178,17 @@ function to_game_page() {
 		tries = 5;
 		cherry_eaten = 0;
 		tries_eaten = 0;
+		green_ghost.x = -1;
+		green_ghost.y = -1;
+	
+		cyan_ghost.x = -1;
+		cyan_ghost.y = -1;
+	
+		red_ghost.x = -1;
+		red_ghost.y = -1;
+	
+		pink_ghost.x = -1;
+		pink_ghost.y = -1;
 		clearInterval(interval);
 		game_p.style.display = "none";
 		welcoming_p.style.display = "block";
