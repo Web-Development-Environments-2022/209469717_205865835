@@ -66,7 +66,7 @@
 		</div>
 
 		<div>
-			<div id="options_page" style="display: none;" class="options_page">
+			<div id="options_page" style="display: none;" class="options_page" >
 				<br>
 				<br>
 				<br>
@@ -239,9 +239,36 @@
 			
 			  <div id="nav" style="display: none;" class="nav">	
 				<button class="nav_button" id="menu_Options" onclick="to_options_from_game()">Options</button>	
-				<button class="nav_button" id="menu_about" onclick="">About</button>					
+				<button class="nav_button" id="menu_about" onclick="openModal()" >About</button>									
 				<button class="nav_button" id="menu_logout" onclick="logout_from_game()">Log Out</button>	
 			  </div>
+
+
+			  <dialog class="modal" id="modal">
+				  <h2> NOTHING IS DIFFICULT TO ME YOU WEAK ASS BITCH </h2>
+				  <P> I'M GONNA EAT ALL YOUR BABIES</P>			
+				  <button class="button close-button" onclick="closeModal()"> X </button>
+			  </dialog>
+
+			  <script>
+				const myDialog = document.querySelector("#modal");
+
+			 	myDialog.addEventListener("click", (e) => {
+			 		const rect = myDialog.getBoundingClientRect();
+					if (
+						e.clientY < rect.top ||
+						e.clientY > rect.bottom ||
+						e.clientX < rect.left ||
+						e.clientX > rect.right
+					) {
+						modal.close();
+					}
+				});	 
+			  </script>
+
+			  
+
+
 		</div>
 		
 
