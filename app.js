@@ -183,6 +183,17 @@ function to_game_page() {
 
   function play_again(){
 	window.clearInterval(interval);
+	green_ghost.x = -1;
+	green_ghost.y = -1;
+
+	cyan_ghost.x = -1;
+	cyan_ghost.y = -1;
+
+	red_ghost.x = -1;
+	red_ghost.y = -1;
+
+	pink_ghost.x = -1;
+	pink_ghost.y = -1;
 	cherry_eaten = 0;
 	tries_eaten = 0;
 	bad_eaten =0;
@@ -706,7 +717,7 @@ function Draw() {
 				draw_ghost(context, 30, center.x, center.y, "cyan");
 			}	
 			if (green_ghost_board[i][j] == 1){
-				draw_ghost(context, 30, center.x, center.y, "green");
+				draw_ghost(context, 30, center.x, center.y, "orange");
 			}
 			if (pink_ghost_board[i][j] == 1){
 				draw_ghost(context, 30, center.x, center.y, "pink");
@@ -1240,6 +1251,8 @@ function UpdatePosition() {
 		bad_timer = 30;
 	}
 	if (((green_ghost.x == shape.i && green_ghost.y == shape.j) || (cyan_ghost.x == shape.i && cyan_ghost.y == shape.j) || (red_ghost.x == shape.i && red_ghost.y == shape.j) || (pink_ghost.x == shape.i && pink_ghost.y == shape.j)) && scared_ghosts == 0){		
+
+		
 		tries--;
 		bad_timer = 0;
 		death_sound.play();
