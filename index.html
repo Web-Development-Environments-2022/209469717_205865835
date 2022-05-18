@@ -82,11 +82,15 @@
 				<input type="password" placeholder="Enter Password" name="psw_login" id="psw_login" required>
 				<br>
 				<br>
-				<button class="cool_button" onclick="loginBack()">Back</button>
+				<button class="cool_button" type="button" onclick="loginBack()">Back</button>
 				<button id="login_submit" class="cool_button" >Login</button>	
 				<script>
 				function loginBack(){
 					to_main_page_from_login();
+					$("#login_page")[0].reset();
+				}
+				function loginNext(){
+					to_options_page_from_login();
 					$("#login_page")[0].reset();
 				}
 				</script>
