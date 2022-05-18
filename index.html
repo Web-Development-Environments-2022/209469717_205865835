@@ -7,7 +7,11 @@
 		<script src="https://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
 		<script type="text/javascript" src="./validate.js"></script>
 		<link rel="stylesheet" href="style.css">
+		<audio id="win" src="AudioFiles/victory.mp3" preload="auto"></audio>
 	</head>
+	<header>
+		<img class="logo" src="pictures/logo.png" >
+	</header>
 
 	<body class="main_body">
 		<div id="welcoming_page" >
@@ -16,7 +20,6 @@
 				var k_pass = "k"
 					window.localStorage.setItem(k_user,k_pass);
 			</script>
-			<h>Welcome to PacMan</h>
 			<br>				
 			<button class="cool_button" onclick="to_register_page()">Register</button>
 			<button class="cool_button" onclick="to_login_page()">Log in</button>
@@ -290,14 +293,10 @@
 					}
 				});	 
 			  </script>
-
-			  
-
-
 		</div>
-		
-
-		
-
 	</body>
+
+	<footer>
+		<p>Contact us at: sadotal@post.bgu.ac.il | amsador@post.bgu.ac.il</p>
+	</footer>
 </html>
