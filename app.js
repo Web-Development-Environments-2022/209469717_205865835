@@ -1233,12 +1233,13 @@ function UpdatePosition() {
 
 	
 	if (time_elapsed >= max_time){
-		window.clearInterval(interval);
+		window.clearInterval(interval);		
+		window.alert("Time's out, you are better than " + score + " points!");
 		score = 0; //restart score
 		tries = 5; //restart tries
 		cherry_eaten = 0;
 		tries_eaten =0;
-		window.alert("Time's out, you lost!");
+		theme_song.pause();
 	}
 	if (score >= 500) {
 		document.getElementById('win').play();
