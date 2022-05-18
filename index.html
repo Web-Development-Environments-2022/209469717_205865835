@@ -26,7 +26,55 @@
 		</div>
 				
 
-		<form  id="register_page" method="post" action="" style="display: none;" class="register_page" novalidate="novalidate">
+		<form class="form"  id="register_page" method="post" action="" style="display: none;" novalidate="novalidate">
+			<div class="title">Register Page</div>
+			<div class="subtitle">Please enter the following details:</div>
+			<div class="input-container ic1">
+			  <input type="text" class="input" placeholder=" " name="user_name" id="un" required="true" />
+			  <div class="cut"></div>
+			  <label for="un" class="placeholder">Username</label>
+			</div>
+			<div class="input-container ic2">
+			  <input type="password" placeholder=" " class="input" name="password" id="password" required="true"/>
+			  <div class="cut"></div>
+			  <label for="psw_login" class="placeholder">Password</label>
+			</div>
+			<div class="input-container ic2">
+				<input name="fullname" id="fullname" class="input" type="text" placeholder=" " required="true"/>
+				<div class="cut cut-short"></div>
+				<label for="Enter Full Name" class="placeholder">Fullname</>
+			</div>
+			<div class="input-container ic2">
+				<input class=input type="email" placeholder=" " name="email" id="email" required="true"/>
+				<div class="cut cut-short"></div>
+				<label for="email" class="placeholder">Email Address</>
+			</div>
+			<div>
+			<div class="input-container ic2">
+				<label class="placeholder_date" for="start">Start date:</label>
+			<div class="cut cut-short"></div>
+				<input class="input_date" type="date" id="start" name="trip-start" 
+					   value="2018-07-22"
+					   min="1970-01-01" max="2020-12-31">
+			</div>
+		</div>
+
+			<button class="cool_button" onclick="regBack()">Back</button>				
+			<button id="reg_submit" class="cool_button" >Submit</button>			
+
+
+			<script>
+			
+			function regBack(){
+				to_main_page_from_register()
+				$("#register_page")[0].reset();
+			}
+
+			</script>
+		  </form>
+
+
+		<!-- <form  id="register_page" method="post" action="" style="display: none;" class="register_page" novalidate="novalidate">
 			<div id="register_page_div" name="register_page_div" class="register_page">
 				<br>
 				<br>
@@ -66,10 +114,10 @@
 				</script>
 
 			</div>
-		</form>
+		</form> -->
 		
 
-		<form id="login_page" action="" style="display: none;" class="login_page" novalidate="novalidate">
+		<!-- <form id="login_page" action="" style="display: none;" class="login_page" novalidate="novalidate">
 			<div>
 				<label> Login now </label> 			
 				<br>
@@ -95,7 +143,42 @@
 				}
 				</script>
 			</div>
-		</form>
+		</form> -->
+
+	<form class="form" id="login_page" action="" style="display: none;" novalidate="novalidate">
+      <div class="title">Login Page</div>
+      <div class="subtitle">Please Provide Your Username And Password:</div>
+      <div class="input-container ic1">
+        <input type="text" class="input" placeholder=" " name="user_name_login" id="user_name_login" required />
+        <div class="cut"></div>
+        <label for="user_name_login" class="placeholder">Username</label>
+      </div>
+      <div class="input-container ic2">
+        <input type="password" placeholder=" " class="input" name="psw_login" id="psw_login" required/>
+        <div class="cut"></div>
+        <label for="psw_login" class="placeholder">Password</label>
+      </div>
+	  <button class="cool_button" type="button" onclick="loginBack()">Back</button>
+	  <button id="login_submit" class="cool_button" >Login</button>	
+    </form	>
+	
+	<script>
+		function loginBack(){
+			to_main_page_from_login();
+			$("#login_page")[0].reset();
+		}
+		function loginNext(){
+			to_options_page_from_login();
+			$("#login_page")[0].reset();
+		}
+		</script>
+	
+	
+	
+
+
+
+
 
 		<div>
 			<div id="options_page" style="display: none;" class="options_page" >
@@ -276,9 +359,19 @@
 			  </div>
 
 
-			  <dialog class="modal" id="modal">
-				  <h2> YOU WEAK ASS BITCH </h2>
-				  <P> I'M GONNA EAT ALL YOUR BABIES</P>			
+			  <dialog class="modal" id="modal" >
+				  <h2> Presenters: Dor Amsalem, Alon Sadot. </h2>
+				  <P> 
+					We have used the "jQuery Validation Plugin" for the forms validation,
+					<br>
+					and jquery-3.1.1. (The query 3.4.1 slim was already in the task forms)
+					<br>
+					and for its design the "Placeholdersm Mikael Ainalem" Template. 
+					<br>
+					We have engaged some errors using the jquery plugin, since the
+					<br>
+					submitHandler applied two methods instead of one.
+				  </P>			
 				  <button class="button close-button" onclick="closeModal()"> X </button>
 			  </dialog>
 
@@ -301,6 +394,7 @@
 	</body>
 
 	<footer>
+		<br>
 		<p>Contact us at: sadotal@post.bgu.ac.il | amsador@post.bgu.ac.il</p>
 	</footer>
 </html>
