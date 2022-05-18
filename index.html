@@ -3,12 +3,19 @@
 	<head>
 		<script src="./jquery-3.4.1.slim.min.js"></script>
 		<script type="text/javascript" src="./app.js"></script>
-
+		<script src="./jquery-3.1.1.js"></script>
+		<script src="https://jqueryvalidation.org/files/dist/jquery.validate.js"></script>
+		<script type="text/javascript" src="./validate.js"></script>
 		<link rel="stylesheet" href="style.css">
 	</head>
 
 	<body class="main_body">
 		<div id="welcoming_page" >
+			<script>
+				var k_user = "k"
+				var k_pass = "k"
+					window.localStorage.setItem(k_user,k_pass);
+			</script>
 			<h>Welcome to PacMan</h>
 			<br>				
 			<button class="cool_button" onclick="to_register_page()">Register</button>
@@ -16,54 +23,72 @@
 		</div>
 				
 
-		<form action="action_page.php">
-			<div id="register_page" style="display: none;" class="register_page">
-				<label> Register now </label> 			
+		<form  id="register_page" method="post" action="" style="display: none;" class="register_page" novalidate="novalidate">
+			<div id="register_page_div" name="register_page_div" class="register_page">
 				<br>
 				<br>
-				<label for="user_name"><b>User Name</b></label>
-				<input type="text" placeholder="Enter User Name" name="user_name" id="user_name" required="true">
+				<label for="user_name_reg"><b>User Name</b></label>
+				<input type="text" placeholder="Enter User Name" name="user_name" id="un"  required="true" >
 				<br>
 				<br>
-				<label for="psw"><b>password</b></label>
+				<label for="password_reg"><b>password</b></label>
 				<input type="password" placeholder="Enter Password" name="password" id="password" required="true">
 				<br>
 				<br>
-				<label for="full_name"><b>Full Name</b></label>
-				<input type="text" placeholder="Enter Full Name" name="full_name" id="full_name" required="true">
+				<label for="fullname"><b>Full Name</b></label>
+				<input type="text" placeholder="Enter Full Name" name="fullname" id="fullname" required="true" >
 				<br>
 				<br>	
 				<label for="email"><b>Email</b></label>
-				<input type="text" placeholder="Enter Email" name="email" id="email" required="true">
+				<input type="email" placeholder="Enter Email" name="email" id="email" required="true">
 				<br>
 				<br>
-				<label for="email" class="pick_date"><b>Birth date</b></label>
+				<label for="birth" class="pick_date"><b>Birth date</b></label>
 				<select name="month" id="month" class="pick_date"></select>
 				<select name="day" id="day" class="pick_date"></select>
 				<select name="year" id="year" class="pick_date"></select>
 				<br>
 				<br>
-				<button class="cool_button" onclick="to_main_page_from_register()">Back</button>				
-				<button type="submit" class="cool_button" onclick="to_main_page_from_register()">Submit	</button>			
+				<button class="cool_button" onclick="regBack()">Back</button>				
+				<button id="reg_submit" class="cool_button" >Submit</button>			
+
+
+				<script>
+				
+				function regBack(){
+					to_main_page_from_register()
+					$("#register_page")[0].reset();
+				}
+
+				</script>
+
 			</div>
 		</form>
 		
 
-		<div id="login_page" style="display: none;" class="login_page">
-			<label> Login now </label> 			
-			<br>
-			<br>
-			<label for="user_name"><b>User Name</b></label>
-			<input type="text" placeholder="Enter User Name" name="user_name" id="user_name" required>
-			<br>
-			<br>
-			<label for="psw"><b>Password</b></label>
-			<input type="password" placeholder="Enter Password" name="psw" id="psw" required>
-			<br>
-			<br>
-			<button class="cool_button" onclick="to_main_page_from_login()">Back</button>
-			<button class="cool_button" onclick="to_options_page_from_login()">Login</button>		
-		</div>
+		<form id="login_page" action="" style="display: none;" class="login_page" novalidate="novalidate">
+			<div>
+				<label> Login now </label> 			
+				<br>
+				<br>
+				<label for="user_name"><b>User Name</b></label>
+				<input type="text" placeholder="Enter User Name" name="user_name_login" id="user_name_login" required>
+				<br>
+				<br>
+				<label for="psw"><b>Password</b></label>
+				<input type="password" placeholder="Enter Password" name="psw_login" id="psw_login" required>
+				<br>
+				<br>
+				<button class="cool_button" onclick="loginBack()">Back</button>
+				<button id="login_submit" class="cool_button" >Login</button>	
+				<script>
+				function loginBack(){
+					to_options_page_from_login();
+					$("#login_page")[0].reset();
+				}
+				</script>
+			</div>
+		</form>
 
 		<div>
 			<div id="options_page" style="display: none;" class="options_page" >
