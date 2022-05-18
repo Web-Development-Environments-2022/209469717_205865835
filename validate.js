@@ -99,7 +99,7 @@ $().ready(function() {
     
     $("#login_page").validate({
         submitHandler: function() {
-            loginBack();
+            loginNext();
         },
         onfocusout: false,
 
