@@ -59,13 +59,20 @@ function closeModal() {
   }
 
  
+ 
 
+var fruit_sound = new Audio('AudioFiles/fruit.mp3');
+fruit_sound.volume = 0.75;
+
+var blue_ghosts_sound = new Audio('AudioFiles/blue_ghosts_sound.mp3');
+blue_ghosts_sound.volume = 0.75;
+
+var health_sound = new Audio('AudioFiles/health.mp3');
+health_sound.volume = 0.75;
 
 var bad_sound = new Audio('AudioFiles/bad_sound.mp3');
 bad_sound.volume = 0.5;
 
-var victory_sound = new Audio('AudioFiles/victory.mp3');
-victory_sound.volume = 0.5;
 
 var theme_song = new Audio('AudioFiles/theme1.mp3');
 var death_sound = new Audio('AudioFiles/death_sound.mp3');
@@ -1128,13 +1135,13 @@ function UpdatePosition() {
 			Draw();
 		}
 	}
-	if (board[shape.i][shape.j] == 1) {
+	if (board[shape.i][shape.j] == 1) {		
 		score+= 5;
 	}
-	if (board[shape.i][shape.j] == 1.1) {
+	if (board[shape.i][shape.j] == 1.1) {		
 		score+= 15;
 	}
-	if (board[shape.i][shape.j] == 1.2) {
+	if (board[shape.i][shape.j] == 1.2) {		
 		score+= 25;
 	}
 	board[shape.i][shape.j] = 2;			
@@ -1234,7 +1241,8 @@ function UpdatePosition() {
 		window.alert("Time's out, you lost!");
 	}
 	if (score >= 500) {
-		victory_sound.play();
+		document.getElementById('win').play();
+		window.alert("Congratulations! you won!");
 		window.clearInterval(interval);
 		score = 0; //restart score
 		tries = 5; //restart tries
@@ -1242,11 +1250,13 @@ function UpdatePosition() {
 		tries_eaten =0;		
 		theme_song.pause();
 		theme_song.currentTime = 0;		
-		window.alert("Congratulations! you won!");
+		victory_sound.play();
+		
 	} else {
 		Draw();
 	}	
 	if (shape.i == cherry.x && shape.j == cherry.y && cherry_eaten == 0){
+		fruit_sound.play();
 		score += 50;
 		cherry_board[cherry.x][cherry.y] = 0;
 		cherry.x = -1;
@@ -1258,12 +1268,14 @@ function UpdatePosition() {
 		fear_board[fear_object.x][fear_object.y] = 0;
 		fear_object.x = -1;
 		fear_object.y = -1;
+		blue_ghosts_sound.play();
 	}
 	if (shape.i == bonus_tries.x && shape.j == bonus_tries.y && tries_eaten == 0){
 		tries += 1;
 		tries_board[bonus_tries.x][bonus_tries.y] = 0;
 		bonus_tries.x = -1;
 		bonus_tries.y = -1;
+		health_sound.play();
 	}
 	if (shape.i == bad_food.x && shape.j == bad_food.y && bad_eaten == 0){
 		bad_board[bad_food.x][bad_food.y] = 0;
