@@ -131,6 +131,7 @@ $().ready(function() {
         for ( var i = 0, len = localStorage.length; i < len; ++i ) {
             if(localStorage.key(i) == user_name_login.value){
                 if(localStorage.getItem(localStorage.key(i)) == psw_login.value){
+                    document.getElementById("gamer_name").innerText = user_name_login.value;
                     return true;
                 }
             }
