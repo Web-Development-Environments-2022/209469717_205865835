@@ -9,16 +9,19 @@
 		<link rel="stylesheet" href="style.css">
 		<audio id="win" src="AudioFiles/victory.mp3" preload="auto"></audio>
 	</head>
-	<header>
+	<header id="header">
 		<img class="logo" src="pictures/logo.png" >
 	</header>
 
 	<body class="main_body">
+		<br>
+		<br>	
+		<br>
 		<div id="welcoming_page" >
 			<script>
 				var k_user = "k"
 				var k_pass = "k"
-					window.localStorage.setItem(k_user,k_pass);
+				window.localStorage.setItem(k_user,k_pass);
 			</script>
 			<br>				
 			<button class="cool_button" onclick="to_register_page()">Register</button>
@@ -102,17 +105,13 @@
 				<br>
 				<button class="cool_button" onclick="regBack()">Back</button>				
 				<button id="reg_submit" class="cool_button" >Submit</button>			
-
-
 				<script>
 				
 				function regBack(){
 					to_main_page_from_register()
 					$("#register_page")[0].reset();
 				}
-
 				</script>
-
 			</div>
 		</form> -->
 		
@@ -172,16 +171,9 @@
 			$("#login_page")[0].reset();
 		}
 		</script>
-	
-	
-	
-
-
-
-
-
+			
 		<div>
-			<div id="options_page" style="display: none;" class="options_page" >
+			<div id="options_page" style="display: none; padding-bottom: 4rem;" class="options_page" >
 				<br>
 				<br>
 				<br>
