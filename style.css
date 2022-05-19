@@ -40,6 +40,8 @@ body{
 	/* min-height: 100vh; */
 }
 
+
+
 .game_page{
 	color: white;	
 	min-height: 90vh;
@@ -193,12 +195,16 @@ body{
 	display: flex;
 	margin: 0 auto;
 	width: 50%;
+	border-radius: 20px;
+
   }
   
   .option_splitscreen .left,
   .option_splitscreen .right {
+	border-radius: 20px;
 	flex: 0.45;
 	background-color: rgb(26, 10, 48);
+	position:relative;
   }
 
 .options_title{
@@ -206,7 +212,6 @@ body{
 	width: 0%;
 
 }
-
 
 .options_text{
 	color:rgb(219, 202, 235);	
@@ -375,15 +380,15 @@ footer {
 		0 0 0.125em white, 
 		0 0 0.35em rgb(39, 214, 245) ;
 	font-family: sans-serif;
-	position:relative;
+	/* position:relative; */
 	bottom:0;
 	position: absolute;
 	width: 90%;
 	height: 4rem;
 	left: 4%;
+	/* width:90%; */
+	/* height:50%; */
 }
-
-  
 
 header{
 	position: absolute;
@@ -398,24 +403,16 @@ header{
 }
 
 
-
-
-
-/* New CCS Form tries */
-
-
-
-
 .form {
 	background-color: #15172b;
 	border-radius: 20px;
 	box-sizing: border-box;
 	/* height: 500px;
-	padding: 20px;
-	width: 320px; */
+	padding: 20px; */
+	width: 320px;
 	align-self: center;
 	margin: auto;
-	width: 50%;
+	width: 55%;
 	height: 50%;
 	/* border: 3px solid green; */
 	padding: 10px;
@@ -470,11 +467,28 @@ header{
 	box-sizing: border-box;
 	color: #eee;
 	font-size: 18px;
-	/* height: 100%; */
+	height: 100%;
 	outline: 0;
 	padding: 4px 20px 0;
 	/* width: 100%; */
+	/* position: absolute; */
+	/* padding-inline-start: 50%; */
+	
   }
+
+  .placeholder_date {
+	color: #65657b;
+	font-family: sans-serif;
+	left: 20px;
+	line-height: 14px;
+	pointer-events: none;
+	position: sticky;
+	transform-origin: 0 50%;
+	transition: transform 200ms, color 200ms;
+	top: 20px;
+	/* top: 8px; */
+  }
+  
   
   .cut {
 	background-color: #15172b;
@@ -509,28 +523,32 @@ header{
 	top: 20px;
   }
 
-  .placeholder_date {
-	color: #65657b;
-	font-family: sans-serif;
-	left: 270px;
-	line-height: 14px;
-	pointer-events: none;
-	position: absolute;
-	transform-origin: 0 50%;
-	transition: transform 200ms, color 200ms;
-	top: 8px;
-  }
-  
+
   .input:focus ~ .placeholder,
   .input:not(:placeholder-shown) ~ .placeholder {
 	transform: translateY(-30px) translateX(10px) scale(0.75);
   }
+  
   
   .input:not(:placeholder-shown) ~ .placeholder {
 	color: #808097;
   }
   
   .input:focus ~ .placeholder {
+	color: #dc2f55;
+  }
+
+    .input_date:focus ~ .placeholder_date,
+  .input:not(:placeholder-shown) ~ .placeholder {
+	transform: translateY(-30px) translateX(10px) scale(0.75);
+  }
+  
+  
+  .input_date:not(:placeholder-shown) ~ .placeholder_date {
+	color: #808097;
+  }
+  
+  .input_date:focus ~ .placeholder_date {
 	color: #dc2f55;
   }
   
