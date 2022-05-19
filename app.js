@@ -50,6 +50,12 @@ var key_left = 37;
 var key_right = 39;
 
 
+window.addEventListener("keydown", function(e) {
+    if(["Space","ArrowUp","ArrowDown","ArrowLeft","ArrowRight"].indexOf(e.code) > -1) {
+        e.preventDefault();
+    }
+}, false);
+
 
 function openModal() {
 	document.getElementById("modal").showModal();
