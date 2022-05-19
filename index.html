@@ -106,91 +106,40 @@
 		</script>
 	
 		<div>
-			<div id="options_page" style="display: none; padding-bottom: 4rem" class="options_page"  >
-				<br>
-				<br>
-				<br>
-				<div class ="option_splitscreen">
-	
-					<div class="left">
-						<br>
-						<br>
-						<br>
-						<br>
-						<label class="options_text"> Keyboard </label> 		
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<label class="options_text"> Number of point balls </label> 	
-						<br>
-						<br>
-						<br>
-						<br>
-						<label class="options_text"> Balls colors </label> 	
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<label class="options_text"> Game duration (In seconds) </label> 
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<label class="options_text"> Number of ghosts </label> 
-						<br>
-					</div>
-	
-					<div class="right">
-						<button class="key_button" id="key_button_up" onclick="swich_controls('key_button_up')">↑</button>	
-						<br>	
-						<button class="key_button" id="key_button_left" onclick="swich_controls('key_button_left')">←</button>		
-						<button class="key_button" id="key_button_right" onclick="swich_controls('key_button_right')">→</button>		
-						<br>
-						<button class="key_button" id="key_button_down" onclick="swich_controls('key_button_down')">↓</button>	
-						<br>
-						<br>
-						<br>
-						<br>
-						<select name="num_balls" id="num_balls" class="pick_num_balls"></select>
-						<br>
-						<br>
-						<br>
-						<br>
-						<label> 5 point ball </label> 	
-						<input type="color" id="ball_color1" name="ball_color1"value="#A9E698">
-						<label> 15 point ball </label> 	
-						<input type="color" id="ball_color2" name="ball_color2"value="#9717E5">
-						<label> 25 point ball </label> 	
-						<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6">
-						<br>
-						<br>
-						<br>
-						<br>
-						<select name="duration" id="duration" class="pick_num_balls"></select>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<select name="ghosts" id="ghosts" class="pick_ghosts"></select>						
-						<br>
-					</div>
+			<div id="options_page" style="display: none; " class="options_page"  >				
+				<div class="option_keys">							
+					<button class="key_button " id="key_button_up" onclick="swich_controls('key_button_up')">↑</button>	
+					<br>	
+					<label class="options_text  controls_text"> Controls: </label> 
+					<button class="key_button option_key_middle" id="key_button_left" onclick="swich_controls('key_button_left')">←</button>		
+					<button class="key_button option_key_middle" id="key_button_right" onclick="swich_controls('key_button_right')">→</button>		
+					<br>
+					<button class="key_button " id="key_button_down" onclick="swich_controls('key_button_down')">↓</button>	
 				</div>
-	
+				<br>
+				<label class="options_text option_balls"> Number of point balls: </label> 					
+				<select name="num_balls" id="num_balls" class="selector option_balls"></select>
+				<br>
+				<label class="options_text option_colors"> Balls colors: </label> 	
+				<label class=" option_colors"> 5 point ball </label> 	
+				<input type="color" id="ball_color1" name="ball_color1"value="#A9E698" class="options_text option_colors">
+				<label class=" option_colors"> 15 point ball </label> 	
+				<input type="color" id="ball_color2" name="ball_color2"value="#9717E5" class="options_text option_colors">
+				<label class=" option_colors"> 25 point ball </label> 	
+				<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6" class="options_text option_colors">
+				<br>
+				<label class="options_text option_duration"> Game duration (In seconds): </label> 
+				<select name="duration" id="duration" class="selector option_duration"></select>
+				<br>
+				<label class="options_text option_ghosts"> Number of ghosts: </label> 
+				<select name="ghosts" id="ghosts" class="selector option_ghosts"></select>		
 				<br>
 				<button class="random_button" onclick="randomize_settings()">Randomize Options</button>
 				<br>
 				<button class="cool_button_play" onclick="to_game_page_from_options()">Start New Game</button>		
+				<br>
+				<br>
+				<br>
 			</div>
 				<div id="game_page" style="display: none;" class="game_page">
 					<br>
