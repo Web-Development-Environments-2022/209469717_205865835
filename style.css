@@ -32,10 +32,17 @@ input[type="game_text"]
 	background-color: rgb(22, 3, 46);
 	text-align: center;
 	color: white;	
+	padding-bottom: 4rem;
+}
+
+body{
+	position: relative;
+	/* min-height: 100vh; */
 }
 
 .game_page{
 	color: white;	
+	min-height: 90vh;
 }
 
 .cool_button{
@@ -200,6 +207,7 @@ input[type="game_text"]
 
 }
 
+
 .options_text{
 	color:rgb(219, 202, 235);	
 	font-family: "Lucida Console", "Courier New", monospace;
@@ -356,14 +364,6 @@ input[type="game_text"]
 	/* max-width: 30%; */
 }
 
-footer{
-	color:rgb(214, 216, 226);
-	text-shadow:
-		0 0 0.125em white, 
-		0 0 0.35em rgb(39, 214, 245) ;
-	font-family: sans-serif;
-} 
-
 .modal::backdrop{
 	background: linear-gradient(45deg,red, blue);
 	opacity: .2;
@@ -377,35 +377,25 @@ footer {
 	font-family: sans-serif;
 	position:relative;
 	bottom:0;
-	/* width:90%; */
-	/* height:40px;   Height of the footer */
+	position: absolute;
+	width: 90%;
+	height: 4rem;
+	left: 4%;
 }
+
+  
 
 header{
 	position: absolute;
 	top: 1px;
-	left: 5px;
-	overflow: hidden;
-	top: 0;
+	left: 40%;
+	overflow: hidden;	
 }
 
 .logo{
 	width: 400px;
 	border-radius: 30px;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
