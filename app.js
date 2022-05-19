@@ -100,14 +100,16 @@ function to_game_page() {
 	var register_p = document.getElementById("register_page");
 	welcoming_p.style.display = "none";
 	register_p.style.display = "block";
+	document.getElementById("header").style = "position: absolute; top: 1px; left: 10px; overflow: hidden;"
 
   }
 
   function to_main_page_from_register() {
 	var welcoming_p = document.getElementById("welcoming_page");
-	var register_p = document.getElementById("register_page");
+	var register_p = document.getElementById("register_page");	
 	welcoming_p.style.display = "block";
 	register_p.style.display = "none";
+	document.getElementById("header").style = "position: absolute; top: 1px; left: 40%; overflow: hidden;"
   }
 
   function to_login_page() {
@@ -115,6 +117,7 @@ function to_game_page() {
 	var login_p = document.getElementById("login_page");
 	welcoming_p.style.display = "none";
 	login_p.style.display = "block";
+	document.getElementById("header").style = "position: absolute; top: 1px; left: 10px; overflow: hidden;"
   }
 
   function to_main_page_from_login() {
@@ -122,6 +125,7 @@ function to_game_page() {
 	var login_p = document.getElementById("login_page");
 	welcoming_p.style.display = "block";
 	login_p.style.display = "none";
+	document.getElementById("header").style = "position: absolute; top: 1px; left: 40%; overflow: hidden;"
   }
 
 
@@ -206,6 +210,7 @@ function to_game_page() {
 	}
 	theme_song.pause();
 	theme_song.currentTime =0;
+	document.getElementById("header").style = "position: absolute; top: 1px; left: 40%; overflow: hidden;"
 
 	
   }
