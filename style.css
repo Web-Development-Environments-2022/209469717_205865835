@@ -153,8 +153,9 @@ body{
 
 .random_button{
 	font-size:  2rem;;
-	margin: 10px;
-
+	margin: 10px;	
+	margin-top: 2%;
+	margin-bottom: 2%;
 	background-color: rgb(22, 3, 46);
 	display: inline-block;
 	cursor: pointer;
@@ -190,22 +191,29 @@ body{
 	background: rgb(58, 20, 104);
 }
 
-
+/* 
 .option_splitscreen {
 	display: flex;
 	margin: 0 auto;
 	width: 50%;
 	border-radius: 20px;
 
-  }
-  
-  .option_splitscreen .left,
-  .option_splitscreen .right {
+  } */
+
+  .options_page{
+	display: flex;
+	margin: 0 auto;
+	width: 50%;
 	border-radius: 20px;
-	flex: 0.45;
 	background-color: rgb(26, 10, 48);
 	position:relative;
   }
+  
+/* .option_splitscreen {	
+	border-radius: 20px;
+	background-color: rgb(26, 10, 48);
+	position:relative;
+  } */
 
 .options_title{
 	text-align: center;
@@ -571,3 +579,46 @@ header{
 	background-color: #06b;
   }
   
+
+.option_balls{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+
+.option_colors{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.option_duration{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.option_ghosts{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.option_keys{
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.option_key_text{
+	left: 10%;
+}
+
+.option_key_middle{
+	left: -80px;
+}
+
+.selector{
+	background-color: rgb(213, 192, 219);
+
+}
+
+  .controls_text{
+	margin-right: 5%;
+  }
