@@ -25,7 +25,7 @@ $().ready(function() {
         },
         messages: {
             fullname:{
-                required: "Please enter your firstname and last name",
+                required: "Please enter your first name and last name",
                 nonNumeric: "Please use letters only"
             },
             user_name: {
@@ -35,7 +35,7 @@ $().ready(function() {
             },
             password: {
                 required: "Please provide a password",
-                pwcheck: "password must at least contain 1 letter and 1 digit",
+                pwcheck: "password must contain at least 1 letter and 1 digit",
                 minlength: "Your password must be at least 5 characters long"
             },
             email: "Please enter a valid email address",
