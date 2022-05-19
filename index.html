@@ -54,9 +54,9 @@
 			</div>
 			<div>
 			<div class="input-container ic2">
-				<label class="placeholder_date" for="start">Date of birth:</label>
+				<label class="placeholder_date" for="birth_date ">Date of birth:</label>
 			<div class="cut cut-short"></div>
-				<input class="input_date" type="date" id="start" name="trip-start" 
+				<input class="input_date" type="date" id="birth_date" name="birth_date" 
 					   value="2018-07-22"
 					   min="1970-01-01" max="2020-12-31">
 			</div>
@@ -76,73 +76,6 @@
 			</script>
 		  </form>
 
-
-		<!-- <form  id="register_page" method="post" action="" style="display: none;" class="register_page" novalidate="novalidate">
-			<div id="register_page_div" name="register_page_div" class="register_page">
-				<br>
-				<br>
-				<label for="user_name_reg"><b>User Name</b></label>
-				<input type="text" placeholder="Enter User Name" name="user_name" id="un"  required="true" >
-				<br>
-				<br>
-				<label for="password_reg"><b>password</b></label>
-				<input type="password" placeholder="Enter Password" name="password" id="password" required="true">
-				<br>
-				<br>
-				<label for="fullname"><b>Full Name</b></label>
-				<input type="text" placeholder="Enter Full Name" name="fullname" id="fullname" required="true" >
-				<br>
-				<br>	
-				<label for="email"><b>Email</b></label>
-				<input type="email" placeholder="Enter Email" name="email" id="email" required="true">
-				<br>
-				<br>
-				<label for="birth" class="pick_date"><b>Birth date</b></label>
-				<select name="month" id="month" class="pick_date"></select>
-				<select name="day" id="day" class="pick_date"></select>
-				<select name="year" id="year" class="pick_date"></select>
-				<br>
-				<br>
-				<button class="cool_button" onclick="regBack()">Back</button>				
-				<button id="reg_submit" class="cool_button" >Submit</button>			
-				<script>
-				
-				function regBack(){
-					to_main_page_from_register()
-					$("#register_page")[0].reset();
-				}
-				</script>
-			</div>
-		</form> -->
-		
-
-		<!-- <form id="login_page" action="" style="display: none;" class="login_page" novalidate="novalidate">
-			<div>
-				<label> Login now </label> 			
-				<br>
-				<br>
-				<label for="user_name"><b>User Name</b></label>
-				<input type="text" placeholder="Enter User Name" name="user_name_login" id="user_name_login" required>
-				<br>
-				<br>
-				<label for="psw"><b>Password</b></label>
-				<input type="password" placeholder="Enter Password" name="psw_login" id="psw_login" required>
-				<br>
-				<br>
-				<button class="cool_button" type="button" onclick="loginBack()">Back</button>
-				<button id="login_submit" class="cool_button" >Login</button>	
-				<script>
-				function loginBack(){
-					to_main_page_from_login();
-					$("#login_page")[0].reset();
-				}
-				function loginNext(){
-					to_options_page_from_login();
-					$("#login_page")[0].reset();
-				}
-				</script>
-			</div>
-		</form> -->
 
 	<form class="form" id="login_page" action="" style="display: none;" novalidate="novalidate">
       <div class="title">Login Page</div>
@@ -171,9 +104,16 @@
 			$("#login_page")[0].reset();
 		}
 		</script>
-			
+	
+	
+	
+
+
+
+
+
 		<div>
-			<div id="options_page" style="display: none; padding-bottom: 4rem;" class="options_page" >
+			<div id="options_page" style="display: none; padding-bottom: 4rem" class="options_page"  >
 				<br>
 				<br>
 				<br>
@@ -184,12 +124,10 @@
 						<br>
 						<br>
 						<br>
-						<br>
-						<br>
-						<br>
-						<br>
-						<br>
 						<label class="options_text"> Keyboard </label> 		
+						<br>
+						<br>
+						<br>
 						<br>
 						<br>
 						<br>
@@ -229,6 +167,7 @@
 						<br>
 						<br>
 						<br>
+						<br>
 						<select name="num_balls" id="num_balls" class="pick_num_balls"></select>
 						<br>
 						<br>
@@ -240,7 +179,6 @@
 						<input type="color" id="ball_color2" name="ball_color2"value="#9717E5">
 						<label> 25 point ball </label> 	
 						<input type="color" id="ball_color3" name="ball_color3"value="#3C63E6">
-						<br>
 						<br>
 						<br>
 						<br>
@@ -324,18 +262,6 @@
 					<label  class="ingame_options" for="ghosts_num"> Number of ghosts:</label>
 					<label  class="ingame_options" id="ghosts_num"></label>
 					<br>
-					<!-- <br> -->
-					<!-- <img class="picture_game" src="pictures/badGhost.png" >
-					<label  class="ingame_options"> Makes the ghosts go into a frenzy~!</label>
-					<br>
-					<br>
-					<img class="picture_game" src="pictures/pluspng.png" >
-					<label  class="ingame_options"> Extra health!</label>
-					<br>
-					<br>
-					<img  class="picture_game" src="pictures/blueGhostspng.png" >
-					<label  class="ingame_options"> Makes the ghosts scared and harmless!</label>
-					<br> -->
 					<label> </label>
 										
 					
@@ -360,7 +286,7 @@
 					<br>
 					and for its design the "Placeholdersm Mikael Ainalem" Template. 
 					<br>
-					We have faced some difficulties using the jquery plugin, since the
+					We have engaged some errors using the jquery plugin, since the
 					<br>
 					submitHandler applied two methods instead of one.
 				  </P>			
