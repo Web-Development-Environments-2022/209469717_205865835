@@ -502,40 +502,7 @@ function Start() {
 			) {
 				board[i][j] = 4;
 			} else {
-				// var randomNum = Math.random();
-				// if (randomNum <= (1.0 * food_remain) / cnt) {
-				// 	food_remain--;
-				// 	board[i][j] = 1;
-				// } 
-				// else if (randomNum < (1.0 * (pacman_remain + food_remain)) / cnt) {
-					// randI = Math.round(19*Math.random());
-					// randJ = Math.round(11*Math.random());
-					// while (randI > 14 || randI < 6){
-					// 	randI = Math.round(19*Math.random());
-					// 	if (board[randI][randJ] == 4 || board[randI][randJ] == 1 || board[randI][randJ] == 0 || board[randI][randJ] == 3){
-					// 		randI = Math.round(19*Math.random());
-					// 	}
-					// }
-					// while (randJ > 8 || randJ < 4){
-					// 	randJ = Math.round(19*Math.random());
-					// 	if (board[randI][randJ] == 4 || board[randI][randJ] == 1 || board[randI][randJ] == 0 || board[randI][randJ] == 3){
-					// 		randJ = Math.round(19*Math.random());
-					// 	}
-					// }
-
-					// shape.i = randI;
-					// shape.j = randJ;					
-					// pacman_remain--;
-					// board[randI][randJ] = 2;
-					// let pacPos = findRandomEmptyCellForPacman(board)
-					// shape.i = pacPos[0];
-					// shape.j = pacPos[1];					
-					// pacman_remain--;
-					// board[pacPos[0]][pacPos[1]] = 2;						
-				// } 
-				// else {
 					board[i][j] = 0;
-				// }
 				cnt--;
 			}
 		}
@@ -651,28 +618,24 @@ function swich_controls(button_id) {
 			if (key_up == 38) document.getElementById("key_button_up").innerText = "↑"; else if(key_up == 40) document.getElementById("key_button_up").innerText = "↓"; else if(key_up == 37) document.getElementById("key_button_up").innerText = "←"; else if(key_up == 39) document.getElementById("key_button_up").innerText = "→";
 			else
 				document.getElementById("key_button_up").innerText = String.fromCharCode(e.keyCode);
-			// document.getElementById("display_up").innerText = document.getElementById("key_button_up").innerText;
 		}
 		else if (button_id == "key_button_down"){
 			key_down = e.keyCode;
 			if (key_down == 38) document.getElementById("key_button_down").innerText = "↑"; else if(key_down == 40) document.getElementById("key_button_down").innerText = "↓"; else if(key_down == 37) document.getElementById("key_button_down").innerText = "←"; else if(key_down == 39) document.getElementById("key_button_down").innerText = "→";
 			else
 				document.getElementById("key_button_down").innerText = String.fromCharCode(e.keyCode);
-			// document.getElementById("display_down").innerText = document.getElementById("key_button_down").innerText;
 		}
 		else if (button_id == "key_button_left"){
 			key_left = e.keyCode;
 			if (key_left == 38) document.getElementById("key_button_left").innerText = "↑"; else if(key_left == 40) document.getElementById("key_button_left").innerText = "↓"; else if(key_left == 37) document.getElementById("key_button_left").innerText = "←"; else if(key_left == 39) document.getElementById("key_button_left").innerText = "→";
 			else
 				document.getElementById("key_button_left").innerText = String.fromCharCode(e.keyCode);
-			// document.getElementById("display_left").innerText = document.getElementById("key_button_left").innerText;
 		}
 		else if (button_id == "key_button_right"){
 			key_right = e.keyCode;
 			if (key_right == 38) document.getElementById("key_button_right").innerText = "↑"; else if(key_right == 40) document.getElementById("key_button_right").innerText = "↓"; else if(key_right == 37) document.getElementById("key_button_right").innerText = "←"; else if(key_right == 39) document.getElementById("key_button_right").innerText = "→";
 			else
 				document.getElementById("key_button_right").innerText = String.fromCharCode(e.keyCode);
-			// document.getElementById("display_right").innerText = document.getElementById("key_button_right").innerText;
 		}
 		document.removeEventListener('keydown', onKeyHandler);
 		resolve();		
